@@ -1,0 +1,34 @@
+alias tlf="tail -f"
+alias ln='ln -v'
+alias mkdir='mkdir -p'
+alias ...='../..'
+alias l='ls'
+alias la="ls -lAh"
+alias ll='ls -al'
+alias lh='ls -Alh'
+alias lt='ls -lt' 
+alias -g G='| grep'
+alias -g M='| less'
+alias -g L='| wc -l'
+alias -g ONE="| awk '{ print \$1}'"
+alias e="$EDITOR"
+alias v="$VISUAL"
+
+# Find the option for using colors in ls, depending on the version: Linux or BSD
+ls --color -d . &>/dev/null 2>&1 && alias ls='ls --color=tty' || alias ls='ls -G'
+
+alias cls='clear'
+alias h='history'
+# sort with recently modified first
+
+alias more='less'
+alias j='jobs'
+alias df='df -h'
+alias vi='vim'
+
+alias vnc-home="ssh -N -L 6000/localhost/5900 home"
+alias proxy-home="ssh -2qTnNM -D 9999 home"
+alias proxy-lala="ssh -2qTnNM -D 9999 lala"
+
+# Include custom aliases
+[[ -f ~/.aliases.local ]] && source ~/.aliases.local

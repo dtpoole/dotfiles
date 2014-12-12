@@ -1,0 +1,13 @@
+[user]
+	name = David Poole
+	email = dtpoole@gmail.com
+[color]
+	ui = auto
+[core]
+	editor = vim
+[alias]
+	st = status
+	co = checkout
+	br = branch
+	up = rebase
+	ci = commit
