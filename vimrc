@@ -23,7 +23,6 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'othree/html5.vim'
-Plugin 'edkolev/tmuxline.vim'
 Plugin 'chrisbra/csv.vim'
 
 call vundle#end()

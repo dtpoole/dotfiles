@@ -71,7 +71,7 @@ bindkey "^R" history-incremental-search-backward
 bindkey "^P" history-search-backward
 bindkey "^Y" accept-and-hold
 bindkey "^N" insert-last-word
-bindkey -s "^T" "^[Isudo ^[A" # "t" for "toughguy"
+bindkey -s "^T" "^[Isudo ^[A"
 
 # use vim as the visual editor
 export VISUAL=vim
@@ -95,10 +95,16 @@ if [[ -d "$HOME/bin" ]]; then
     PATH="$HOME/.bin:$PATH"
 fi
 
-# node
+## node
+if [[ -d "$HOME/.nvm" ]]; then
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+fi
+
 if [[ -d "$HOME/.npm/bin" ]]; then
     PATH=$HOME/.npm/bin:$PATH
 fi
+
 
 # ruby
 if [[ -d "$HOME/.rvm" ]]; then
@@ -109,4 +115,6 @@ fi
 if which keychain &>/dev/null ; then
     eval `keychain -q --eval --quick --agents ssh --inherit any id_rsa`
 fi
+
+
 
