@@ -105,11 +105,10 @@ if [[ -d "$HOME/.npm/bin" ]]; then
     PATH=$HOME/.npm/bin:$PATH
 fi
 
-
 # ruby
-if [[ -d "$HOME/.rvm" ]]; then
-    export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-    [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" 
+if [[ -d "$HOME/.rbenv" ]]; then
+    PATH="$HOME/.rbenv/bin:$PATH"
+    eval "$(rbenv init -)"
 fi
 
 if which keychain &>/dev/null ; then
