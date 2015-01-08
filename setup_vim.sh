@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [ ! -d ~/.vim/bundle/vundle ]; then
     echo Setting up VIM...
