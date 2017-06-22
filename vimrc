@@ -1,32 +1,29 @@
-set nocompatible
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
-" -- Vundle
-filetype off
-set rtp+=~/.vim/bundle/vundle/
-call vundle#begin()
-Plugin 'gmarik/vundle'
-
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-dispatch'
-Plugin 'plasticboy/vim-markdown'
-Plugin 'blueyed/vim-colors-solarized'
-Plugin 'mileszs/ack.vim'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'bling/vim-airline'
-Plugin 'kien/ctrlp.vim'
-Plugin 'pangloss/vim-javascript'
-Plugin 'vim-scripts/LustyJuggler'
-Plugin 'scrooloose/syntastic'
-Plugin 'scrooloose/nerdtree'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-Plugin 'othree/html5.vim'
-Plugin 'chrisbra/csv.vim'
-
-call vundle#end()
-filetype plugin indent on
+call plug#begin()
+Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-vinegar'
+Plug 'vim-scripts/LustyJuggler'
+Plug 'mileszs/ack.vim'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'scrooloose/nerdcommenter'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'chriskempson/base16-vim'
+Plug 'edkolev/tmuxline.vim'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'derekwyatt/vim-scala'
+Plug 'pangloss/vim-javascript'
+Plug 'othree/html5.vim'
+Plug 'elzr/vim-json'
+Plug 'chrisbra/csv.vim'
+call plug#end()
 
 let mapleader=","
 
@@ -80,12 +77,10 @@ cmap w!! w !sudo tee % >/dev/null
 nmap <leader>l :set list!<CR>
 nmap <leader>n :set number!<CR>
 
-nnoremap <leader>a :Ack
-
 " Edit the vimrc file
 nmap <silent> <leader>v :vsplit $MYVIMRC<CR>
 
-map <C-d> :NERDTreeToggle<CR>
+
 " Editor
 " -------------------------------------------------------------------------
 
@@ -113,15 +108,15 @@ set smartcase
 set hlsearch
 set incsearch
 
-set history=1000         " remember more commands and search history
-set undolevels=1000      " use many muchos levels of undo
+set history=1000
+set undolevels=1000
 set wildignore=*.swp,*.bak,*.pyc,*.class,.svn,.git,*.flac,*.mp3,*.m4a
 
 set encoding=utf-8
 
-set title                " change the terminal's title
-set visualbell           " don't beep
-set noerrorbells         " don't beep
+set title
+set visualbell
+set noerrorbells
 
 set showcmd
 set ruler
@@ -144,10 +139,6 @@ set pastetoggle=<F2>
 
 set nrformats=
 
-if executable("ack")
-  set grepprg=ack\ -a\ -H\ --nocolor\ --nogroup
-endif
-
 " Invisibles
 set listchars=tab:▸\ ,eol:¬
 
@@ -155,9 +146,6 @@ set listchars=tab:▸\ ,eol:¬
 set wildmode=list:longest,list:full
 set complete=.,w,t
 imap <Tab> <C-P>
-
-" Treat <li> and <p> tags like the block tags they are
-let g:html_indent_tags = 'li\|p'
 
 if has("autocmd")
   au! BufWritePost .vimrc,_vimrc,vimrc source $MYVIMRC | AirlineRefresh
@@ -173,15 +161,40 @@ if has("autocmd")
 endif
 
 
+" netrw
+" -------------------------------------------------------------------------
+map <C-d> :Lexplore<CR>
+"let g:netrw_liststyle = 3
+let g:netrw_winsize = 35
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+
 " Airline
 " -------------------------------------------------------------------------
 let g:airline_powerline_fonts = 1
+let g:airline#extensions#tmuxline#enabled = 0
 
-set timeoutlen=1000 ttimeoutlen=50
+" base16-vim
+" -------------------------------------------------------------------------
+silent! colorscheme base16-default-dark
 
-" UltiSnips
-let g:UltiSnipsExpandTrigger       = "<tab>"
-let g:UltiSnipsEditSplit  = "vertical"
+if filereadable(expand("~/.vimrc_background"))
+  source ~/.vimrc_background
+endif
+
+let base16colorspace=256
+
+
+" Ack
+" -------------------------------------------------------------------------
+nnoremap <leader>a :Ack
+set grepprg=ack\ -a\ -H\ --nocolor\ --nogroup
+
+
+" Ultisnips
+" -------------------------------------------------------------------------
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsEditSplit = "vertical"
 
 " CtrlP
 " -------------------------------------------------------------------------
@@ -200,9 +213,8 @@ endif
 " Colors
 " -------------------------------------------------------------------------
 syntax enable
-set t_Co=256
+"set t_Co=256
 set background=dark
-silent! colorscheme solarized
 
 
 " Trailing Space / Indent
