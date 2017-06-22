@@ -7,7 +7,7 @@ cd "$DIR"
 echo Creating links...
 for FILE in *
 do
-    if [ "$FILE" = "$SCRIPT" ] || [ "$FILE" = "setup_vim.sh" ] || [ "$FILE" = "README.md" ]; then
+    if [ "$FILE" = "$SCRIPT" ] || [ "$FILE" = "README.md" ]; then
         continue
     fi
 
