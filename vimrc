@@ -196,6 +196,12 @@ set grepprg=ack\ -a\ -H\ --nocolor\ --nogroup
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsEditSplit = "vertical"
 
+
+" LustyJuggler
+" -------------------------------------------------------------------------
+let g:LustyJugglerSuppressRubyWarning = 1
+
+
 " CtrlP
 " -------------------------------------------------------------------------
 let g:ctrlp_max_files = 10000
