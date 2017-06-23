@@ -1,1 +1,1 @@
-dotfiles used in linux and osx
+dotfiles used in linux, cygwin and osx
