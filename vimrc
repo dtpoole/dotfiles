@@ -153,7 +153,7 @@ if has("autocmd")
   au! BufWritePost .vimrc,_vimrc,vimrc source $MYVIMRC | AirlineRefresh
   au FileType javascript setlocal ts=4 sts=4 sw=4 noexpandtab
   au FileType xhtml,html,css,scss,ruby,yaml,coffee,vim setlocal ts=2 sts=2 sw=2 expandtab
-  au BufRead,BufNewFile {Capfile,Gemfile,Rakefile,config.ru,.caprc,.irbrc,irb_tempfile*} set ft=ruby
+  au BufRead,BufNewFile {Capfile,Gemfile,Rakefile,config.ru,.caprc,.irbrc,Vagrantfile} set ft=ruby
   au! BufNewFile,BufRead *.hql set ft=hive expandtab
 endif
 
