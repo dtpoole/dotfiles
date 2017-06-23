@@ -1,0 +1,103 @@
+### Functions
+
+parse_git_branch() {
+     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ \1/'
+}
+
+# ssh wrapper that rename current tmux window to the hostname of the remote host.
+ssh() {
+    if [ "$(ps -p $(ps -p $$ -o ppid=) -o comm=)" = "tmux" ]; then
+            eval host=\$$#
+            tmux rename-window "$host"
+            command ssh "$@"
+            tmux set-window-option automatic-rename "on" 1>/dev/null
+    else
+            command ssh "$@"
+    fi
+}
+
+### Aliases
+
+alias tlf="tail -f"
+alias ln='ln -v'
+alias mkdir='mkdir -p'
+alias ...='../..'
+alias l='ls'
+alias la="ls -lAh"
+alias ll='ls -al'
+alias lh='ls -Alh'
+alias lt='ls -lt'
+alias e="$EDITOR"
+alias v="$VISUAL"
+
+# Find the option for using colors in ls, depending on the version: Linux or BSD
+ls --color -d . &>/dev/null 2>&1 && alias ls='ls --color=tty' || alias ls='ls -G'
+
+alias cls='clear'
+alias h='history'
+alias more='less'
+alias j='jobs'
+alias df='df -h'
+alias vi='vim'
+
+if [[ $OSTYPE = cygwin ]];
+then
+    alias ps=procps
+fi
+
+
+### Variables / Apps
+
+# use vim as the visual editor
+export VISUAL=vim
+export EDITOR=$VISUAL
+
+export LANG="en_US.UTF-8";
+export LC_ALL="en_US.UTF-8";
+
+# enable colored output from ls, etc
+[[ -x dircolors ]] && eval "$(dircolors ~/.dir_colors)"
+
+export CLICOLOR=1
+export GREP_OPTIONS='--color=auto'
+export GREP_COLOR='1;32'
+
+
+BASE16_SHELL=$HOME/.config/base16-shell/
+[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+[ -s $BASE16_SHELL/scripts/base16-default-dark.sh ] && $BASE16_SHELL/scripts/base16-default-dark.sh
+
+
+# Highlight section titles in manual pages
+export LESS_TERMCAP_md="${yellow}";
+
+REPORTTIME=10 # Show elapsed time if command took more than X seconds
+TIMEFMT=$'%E real,\t%U user,\t%S sys'
+
+PATH=/usr/local/bin:/usr/local/sbin:$PATH
+
+if [[ -d "$HOME/bin" ]]; then
+    PATH="$HOME/.bin:$PATH"
+fi
+
+## node
+if [[ -d "$HOME/.nvm" ]]; then
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+fi
+
+if [[ -d "$HOME/.npm/bin" ]]; then
+    PATH=$HOME/.npm/bin:$PATH
+fi
+
+# ruby
+if [[ -d "$HOME/.rbenv" ]]; then
+    PATH="$HOME/.rbenv/bin:$PATH"
+    eval "$(rbenv init -)"
+fi
+
+if which keychain &>/dev/null ; then
+    eval `keychain -q --eval --quick --agents ssh --inherit any id_rsa`
+fi
+
+
