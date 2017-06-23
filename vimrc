@@ -23,6 +23,8 @@ Plug 'pangloss/vim-javascript'
 Plug 'othree/html5.vim'
 Plug 'elzr/vim-json'
 Plug 'chrisbra/csv.vim'
+Plug 'autowitch/hive.vim'
+Plug 'keith/tmux.vim'
 call plug#end()
 
 let mapleader=","
@@ -152,12 +154,7 @@ if has("autocmd")
   au FileType javascript setlocal ts=4 sts=4 sw=4 noexpandtab
   au FileType xhtml,html,css,scss,ruby,yaml,coffee,vim setlocal ts=2 sts=2 sw=2 expandtab
   au BufRead,BufNewFile {Capfile,Gemfile,Rakefile,config.ru,.caprc,.irbrc,irb_tempfile*} set ft=ruby
-  au BufNewFile,BufRead .tmux.conf*,tmux.conf* setf tmux
-
-  augroup filetypedetect
-    au! BufNewFile,BufRead .tmux.conf*,tmux.conf* setf tmux
-    au! BufNewFile,BufRead *.csv setf csv
-  augroup END
+  au! BufNewFile,BufRead *.hql set ft=hive expandtab
 endif
 
 
