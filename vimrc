@@ -174,13 +174,11 @@ let g:airline#extensions#tmuxline#enabled = 0
 
 " base16-vim
 " -------------------------------------------------------------------------
-silent! colorscheme base16-default-dark
-
 if filereadable(expand("~/.vimrc_background"))
   source ~/.vimrc_background
+  let base16colorspace=256
 endif
 
-let base16colorspace=256
 
 
 " Ack
@@ -217,7 +215,7 @@ endif
 " Colors
 " -------------------------------------------------------------------------
 syntax enable
-"set t_Co=256
+set t_Co=256
 set background=dark
 
 
