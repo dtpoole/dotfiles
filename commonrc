@@ -81,7 +81,7 @@ TIMEFMT=$'%E real,\t%U user,\t%S sys'
 PATH=/usr/local/bin:/usr/local/sbin:$PATH
 
 if [[ -d "$HOME/bin" ]]; then
-    PATH="$HOME/.bin:$PATH"
+    PATH="$HOME/bin:$PATH"
 fi
 
 ## node
