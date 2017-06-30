@@ -8,7 +8,6 @@ call plug#begin()
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-vinegar'
-Plug 'vim-scripts/LustyJuggler'
 Plug 'mileszs/ack.vim'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
@@ -55,12 +54,14 @@ nmap <leader>7 "7p
 nmap <leader>8 "8p
 nmap <leader>9 "9p
 
-nmap <silent> ,/ :nohlsearch<CR>
+nmap <silent> <leader>/ :nohlsearch<CR>
 
 "nmap <C-N><C-N> :set invnumber<CR>
 
 " switch buffers quickly
 nnoremap <leader><leader> <c-^>
+nnoremap <c-g> :bn<CR>
+nnoremap <leader>b :buffers<CR>:buffer<Space>
 
 " reselect visual block after indent/outdent
 vnoremap < <gv
@@ -180,7 +181,6 @@ if filereadable(expand("~/.vimrc_background"))
 endif
 
 
-
 " Ack
 " -------------------------------------------------------------------------
 nnoremap <leader>a :Ack
@@ -191,11 +191,6 @@ set grepprg=ack\ -a\ -H\ --nocolor\ --nogroup
 " -------------------------------------------------------------------------
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsEditSplit = "vertical"
-
-
-" LustyJuggler
-" -------------------------------------------------------------------------
-let g:LustyJugglerSuppressRubyWarning = 1
 
 
 " CtrlP
