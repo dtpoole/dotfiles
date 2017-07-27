@@ -175,11 +175,12 @@ let g:airline#extensions#tmuxline#enabled = 0
 
 " base16-vim
 " -------------------------------------------------------------------------
-if filereadable(expand("~/.vimrc_background"))
-  source ~/.vimrc_background
-  let base16colorspace=256
+if !empty(glob('~/.vim/plugged/base16-vim/README.md'))
+  if filereadable(expand("~/.vimrc_background"))
+    source ~/.vimrc_background
+    let base16colorspace=256
+  endif
 endif
-
 
 " Ack
 " -------------------------------------------------------------------------
