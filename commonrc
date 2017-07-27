@@ -59,8 +59,11 @@ export EDITOR=$VISUAL
 export LANG="en_US.UTF-8";
 export LC_ALL="en_US.UTF-8";
 
+# setup terminal colors
 BASE16_SHELL=$HOME/.config/base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+[ -n "$PS1" ] && [ ! -f "$HOME/.base16_theme" ] && base16_default-dark
+
 
 # enable colored output from ls, etc
 if command_exists dircolors ; then
