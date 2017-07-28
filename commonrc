@@ -28,7 +28,7 @@ alias mkdir='mkdir -p'
 alias ...='../..'
 alias l='ls'
 alias la="ls -lAh"
-alias ll='ls -al'
+alias ll='ls -alh'
 alias lh='ls -Alh'
 alias lt='ls -lt'
 alias e="$EDITOR"
@@ -101,6 +101,13 @@ fi
 if [[ -d "$HOME/.rbenv" ]]; then
     PATH="$HOME/.rbenv/bin:$PATH"
     eval "$(rbenv init -)"
+fi
+
+# python
+if [[ -d "$HOME/.pyenv" ]]; then
+    PATH="$HOME/.pyenv/bin:$PATH"
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
 fi
 
 if command_exists keychain ; then
