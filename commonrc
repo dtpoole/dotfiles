@@ -43,6 +43,7 @@ alias more='less'
 alias j='jobs'
 alias df='df -h'
 alias vi='vim'
+alias trim="awk '{\$1=\$1};1'"
 
 if [[ $OSTYPE = cygwin ]];
 then
