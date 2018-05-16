@@ -134,6 +134,7 @@ au VimEnter,Colorscheme * :hi CursorLineNR ctermfg=8
 """ Airline
 let g:airline_theme='hybrid'
 let g:airline_powerline_fonts = 1
+let g:airline_skip_empty_sections = 1
 let g:airline_mode_map = {
             \ '__' : '-',
             \ 'n'  : 'N',
