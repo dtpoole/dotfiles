@@ -4,7 +4,7 @@ SCRIPT=$(basename "$0")
 DIR=$PWD
 cd "$DIR"
 
-mkdir -p .config/nvim
+mkdir -p ~/.config/nvim
 
 echo Creating links...
 for FILE in *
