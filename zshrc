@@ -28,7 +28,7 @@ bindkey jj vi-cmd-mode
 # handy keybindings
 bindkey "^A" beginning-of-line
 bindkey "^E" end-of-line
-bindkey "^R" history-incremental-search-backward
+#bindkey "^R" history-incremental-search-backward
 bindkey "^P" history-search-backward
 bindkey "^Y" accept-and-hold
 bindkey "^N" insert-last-word
@@ -40,4 +40,5 @@ setopt promptsubst
 
 PROMPT='${SSH_CONNECTION+"%{$fg[green]%}%n@%m "}%{$fg[blue]%}%~%{$reset_color%}%{$fg_bold[green]%}$(parse_git_branch)%{$reset_color%}%{$fg[green]%}%(1j. [%j].)%{$reset_color%} %# '
 
+[[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
