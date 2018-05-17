@@ -92,12 +92,12 @@ set wildmode=list:longest,list:full
 set complete=.,w,t
 
 if has("autocmd")
-    au! BufWritePost init.vim,.vimrc,_vimrc,vimrc source $MYVIMRC | AirlineRefresh
-    au FileType javascript setlocal ts=4 sts=4 sw=4 noexpandtab
-    au FileType xhtml,html,css,scss,ruby,yaml,coffee,vim setlocal ts=2 sts=2 sw=2 expandtab
-    au BufRead,BufNewFile {Vagrantfile} set ft=ruby
-    au BufRead,BufNewFile *.avsc set ft=json
-    au BufNewFile,BufRead *.hql set ft=hive expandtab
+  au! BufWritePost init.vim,.vimrc,_vimrc,vimrc source $MYVIMRC | AirlineRefresh
+  au FileType javascript setlocal ts=4 sts=4 sw=4 noexpandtab
+  au FileType xhtml,html,css,scss,ruby,yaml,coffee,vim setlocal ts=2 sts=2 sw=2 expandtab
+  au BufRead,BufNewFile {Vagrantfile} set ft=ruby
+  au BufRead,BufNewFile *.avsc set ft=json
+  au BufNewFile,BufRead *.hql set ft=hive expandtab
 endif
 
 
@@ -110,7 +110,7 @@ let g:netrw_altv = 1
 
 """ fzf
 if ! empty(glob('~/.fzf'))
-    set rtp+=~/.fzf
+  set rtp+=~/.fzf
 endif
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>f :<C-u>FZF<CR>
@@ -134,19 +134,20 @@ au VimEnter,Colorscheme * :hi CursorLineNR ctermfg=8
 """ Airline
 let g:airline_theme='hybrid'
 let g:airline_powerline_fonts = 1
+let g:airline_skip_empty_sections = 1
 let g:airline_mode_map = {
-            \ '__' : '-',
-            \ 'n'  : 'N',
-            \ 'i'  : 'I',
-            \ 'R'  : 'R',
-            \ 'c'  : 'C',
-            \ 'v'  : 'V',
-            \ 'V'  : 'V',
-            \ '' : 'V',
-            \ 's'  : 'S',
-            \ 'S'  : 'S',
-            \ '' : 'S',
-            \ }
+      \ '__' : '-',
+      \ 'n'  : 'N',
+      \ 'i'  : 'I',
+      \ 'R'  : 'R',
+      \ 'c'  : 'C',
+      \ 'v'  : 'V',
+      \ 'V'  : 'V',
+      \ '' : 'V',
+      \ 's'  : 'S',
+      \ 'S'  : 'S',
+      \ '' : 'S',
+      \ }
 
 """ Ultisnips
 let g:UltiSnipsExpandTrigger = "<tab>"
@@ -156,27 +157,27 @@ let g:UltiSnipsEditSplit = "vertical"
 silent! packadd minpac
 
 if exists('*minpac#init')
-    call minpac#init()
-    call minpac#add('k-takata/minpac', {'type': 'opt'})
-    call minpac#add('tpope/vim-sensible')
-    call minpac#add('tpope/vim-fugitive')
-    call minpac#add('tpope/vim-vinegar')
-    call minpac#add('scrooloose/nerdcommenter')
-    "call minpac#add('SirVer/ultisnips')
-    "call minpac#add('honza/vim-snippets')
-    call minpac#add('vim-airline/vim-airline')
-    call minpac#add('vim-airline/vim-airline-themes')
-    "call minpac#add('nathanaelkane/vim-indent-guides')
-    call minpac#add('derekwyatt/vim-scala')
-    call minpac#add('pangloss/vim-javascript')
-    call minpac#add('python-mode/python-mode')
-    call minpac#add('othree/html5.vim')
-    call minpac#add('elzr/vim-json')
-    call minpac#add('chrisbra/csv.vim')
-    call minpac#add('autowitch/hive.vim')
-    call minpac#add('w0ng/vim-hybrid')
-    call minpac#add('junegunn/fzf.vim')
-    call minpac#add('w0rp/ale')
+  call minpac#init()
+  call minpac#add('k-takata/minpac', {'type': 'opt'})
+  call minpac#add('tpope/vim-sensible')
+  call minpac#add('tpope/vim-fugitive')
+  call minpac#add('tpope/vim-vinegar')
+  call minpac#add('scrooloose/nerdcommenter')
+  "call minpac#add('SirVer/ultisnips')
+  "call minpac#add('honza/vim-snippets')
+  call minpac#add('vim-airline/vim-airline')
+  call minpac#add('vim-airline/vim-airline-themes')
+  "call minpac#add('nathanaelkane/vim-indent-guides')
+  call minpac#add('derekwyatt/vim-scala')
+  call minpac#add('pangloss/vim-javascript')
+  call minpac#add('python-mode/python-mode')
+  call minpac#add('othree/html5.vim')
+  call minpac#add('elzr/vim-json')
+  call minpac#add('chrisbra/csv.vim')
+  call minpac#add('autowitch/hive.vim')
+  call minpac#add('w0ng/vim-hybrid')
+  call minpac#add('junegunn/fzf.vim')
+  call minpac#add('w0rp/ale')
 endif
 
 command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update()
@@ -185,9 +186,9 @@ command! PackClean  packadd minpac | source $MYVIMRC | call minpac#clean()
 
 """ Custom Functions
 function! Preserve(command)
-    let l:save = winsaveview()
-    execute a:command
-    call winrestview(l:save)
+  let l:save = winsaveview()
+  execute a:command
+  call winrestview(l:save)
 endfunction
 
 command! TrimTrailingWhitespace call Preserve("%s/\\s\\+$//e")

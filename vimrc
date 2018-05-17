@@ -1,35 +1,33 @@
+""" vim-plug
 if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 call plug#begin()
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-vinegar'
-Plug 'mileszs/ack.vim'
-Plug 'nathanaelkane/vim-indent-guides'
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdcommenter'
+"Plug 'SirVer/ultisnips'
+"Plug 'honza/vim-snippets'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'chriskempson/base16-vim'
-Plug 'edkolev/tmuxline.vim'
-Plug 'ctrlpvim/ctrlp.vim'
+"Plug 'nathanaelkane/vim-indent-guides'
 Plug 'derekwyatt/vim-scala'
 Plug 'pangloss/vim-javascript'
+Plug 'python-mode/python-mode'
 Plug 'othree/html5.vim'
 Plug 'elzr/vim-json'
 Plug 'chrisbra/csv.vim'
 Plug 'autowitch/hive.vim'
-Plug 'keith/tmux.vim'
+Plug 'w0ng/vim-hybrid'
+Plug 'junegunn/fzf.vim'
 call plug#end()
 
 let mapleader=","
 
-" Shortcuts
-" ------------------------------------------------------------------------
 imap jj <Esc>
 
 " Windows / Splits
@@ -39,29 +37,11 @@ map <c-k> <c-w>k
 map <c-l> <c-w>l
 map <c-h> <c-w>h
 
-" show the registers from things cut/yanked
-nmap <leader>r :registers<CR>
-
-" map the various registers to a leader shortcut for pasting from them
-nmap <leader>0 "0p
-nmap <leader>1 "1p
-nmap <leader>2 "2p
-nmap <leader>3 "3p
-nmap <leader>4 "4p
-nmap <leader>5 "5p
-nmap <leader>6 "6p
-nmap <leader>7 "7p
-nmap <leader>8 "8p
-nmap <leader>9 "9p
-
 nmap <silent> <leader>/ :nohlsearch<CR>
-
-"nmap <C-N><C-N> :set invnumber<CR>
 
 " switch buffers quickly
 nnoremap <leader><leader> <c-^>
 nnoremap <c-g> :bn<CR>
-nnoremap <leader>b :buffers<CR>:buffer<Space>
 
 " reselect visual block after indent/outdent
 vnoremap < <gv
@@ -80,7 +60,6 @@ cmap w!! w !sudo tee % >/dev/null
 nmap <leader>l :set list!<CR>
 nmap <leader>n :set number!<CR>
 
-" Edit the vimrc file
 nmap <silent> <leader>v :vsplit $MYVIMRC<CR>
 
 
@@ -95,7 +74,6 @@ set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set expandtab
-
 set autoindent
 
 set backspace=indent,eol,start
@@ -121,17 +99,9 @@ set title
 set visualbell
 set noerrorbells
 
-set showcmd
-set ruler
-set laststatus=2
-set hidden
-
-
 " Backups
 set nobackup
 set nowritebackup
-"silent execute '!mkdir -p ~/.vim_backups'
-"set backupdir=~/.vim_backups//
 silent execute '!mkdir -p ~/.vim_swap'
 set directory=~/.vim_swap//
 
@@ -142,92 +112,85 @@ set pastetoggle=<F2>
 
 set nrformats=
 
-" Invisibles
-set listchars=tab:▸\ ,eol:¬
+set listchars=tab:▸\ ,eol:¬  " invisibles
+
 
 " Tab completion
 set wildmode=list:longest,list:full
 set complete=.,w,t
-imap <Tab> <C-P>
 
 if has("autocmd")
-  au! BufWritePost .vimrc,_vimrc,vimrc source $MYVIMRC | AirlineRefresh
-  au FileType javascript setlocal ts=4 sts=4 sw=4 noexpandtab
-  au FileType xhtml,html,css,scss,ruby,yaml,coffee,vim setlocal ts=2 sts=2 sw=2 expandtab
-  au BufRead,BufNewFile {Capfile,Gemfile,Rakefile,config.ru,.caprc,.irbrc,Vagrantfile} set ft=ruby
-  au BufRead,BufNewFile *.avsc set ft=json
-  au BufNewFile,BufRead *.hql set ft=hive expandtab
+    au! BufWritePost init.vim,.vimrc,_vimrc,vimrc source $MYVIMRC | AirlineRefresh
+    au FileType javascript setlocal ts=4 sts=4 sw=4 noexpandtab
+    au FileType xhtml,html,css,scss,ruby,yaml,coffee,vim setlocal ts=2 sts=2 sw=2 expandtab
+    au BufRead,BufNewFile {Vagrantfile} set ft=ruby
+    au BufRead,BufNewFile *.avsc set ft=json
+    au BufNewFile,BufRead *.hql set ft=hive expandtab
 endif
 
 
-" netrw
-" -------------------------------------------------------------------------
+""" netrw
 map <C-d> :Lexplore<CR>
-"let g:netrw_liststyle = 3
+let g:netrw_liststyle = 3
 let g:netrw_winsize = 35
 let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 
-" Airline
-" -------------------------------------------------------------------------
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tmuxline#enabled = 0
-
-" base16-vim
-" -------------------------------------------------------------------------
-if !empty(glob('~/.vim/plugged/base16-vim/README.md'))
-  if filereadable(expand("~/.vimrc_background"))
-    source ~/.vimrc_background
-    let base16colorspace=256
-  endif
+""" fzf
+if ! empty(glob('~/.fzf'))
+    set rtp+=~/.fzf
 endif
+nnoremap <leader>b :Buffers<CR>
+nnoremap <leader>f :<C-u>FZF<CR>
+nnoremap <C-p> :<C-u>FZF<CR>
 
-" Ack
-" -------------------------------------------------------------------------
-nnoremap <leader>a :Ack
-set grepprg=ack\ -a\ -H\ --nocolor\ --nogroup
+""" IndentGuides
+"let g:indent_guides_enable_on_vim_startup = 1
+"let g:indent_guides_auto_colors = 0
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=1
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=8
 
+""" Colors / Display
+set background=dark
+colorscheme hybrid
+set cursorline
+set fillchars=vert:│
+set lazyredraw
+" custom current line number highlight
+au VimEnter,Colorscheme * :hi CursorLineNR ctermfg=8
 
-" Ultisnips
-" -------------------------------------------------------------------------
+""" Airline
+let g:airline_theme='hybrid'
+let g:airline_powerline_fonts = 1
+let g:airline_skip_empty_sections = 1
+let g:airline_mode_map = {
+            \ '__' : '-',
+            \ 'n'  : 'N',
+            \ 'i'  : 'I',
+            \ 'R'  : 'R',
+            \ 'c'  : 'C',
+            \ 'v'  : 'V',
+            \ 'V'  : 'V',
+            \ '' : 'V',
+            \ 's'  : 'S',
+            \ 'S'  : 'S',
+            \ '' : 'S',
+            \ }
+
+""" Ultisnips
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsEditSplit = "vertical"
 
 
-" CtrlP
-" -------------------------------------------------------------------------
-let g:ctrlp_max_files = 10000
-
-" Optimize file searching
-if has("unix")
-  let g:ctrlp_user_command = {
-        \   'types': {
-        \       1: ['.git/', 'cd %s && git ls-files']
-        \   },
-        \   'fallback': 'find %s -type f | head -' . g:ctrlp_max_files
-        \ }
-endif
-
-" Colors
-" -------------------------------------------------------------------------
-syntax enable
-set t_Co=256
-set background=dark
-
-
-" Trailing Space / Indent
+""" Custom Functions
 function! Preserve(command)
-  " Preparation: save last search, and cursor position.
-  let _s=@/
-  let l = line(".")
-  let c = col(".")
-  " Do the business:
-  execute a:command
-  " Clean up: restore previous search history, and cursor position
-  let @/=_s
-  call cursor(l, c)
+    let l:save = winsaveview()
+    execute a:command
+    call winrestview(l:save)
 endfunction
 
-nmap _$ :call Preserve("%s/\\s\\+$//e")<CR>
-nmap _= :call Preserve("normal gg=G")<CR>
+command! TrimTrailingWhitespace call Preserve("%s/\\s\\+$//e")
+nmap _$ :TrimTrailingWhitespace<CR>
 
+command! FormatFile call Preserve("normal gg=G")
+nmap _= :FormatFile<CR>
