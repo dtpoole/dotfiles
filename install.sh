@@ -4,8 +4,6 @@ SCRIPT=$(basename "$0")
 DIR=$PWD
 cd "$DIR"
 
-mkdir -p ~/.config/nvim
-
 echo Creating links...
 for FILE in *
 do
@@ -27,6 +25,13 @@ do
         ln -s "$DIR/$FILE" "$DEST"
     fi
 done
+
+mkdir -p ~/.config/nvim
+MINPAC=~/.config/nvim/pack/minpac/opt/minpac
+if [ ! -d "$MINPAC" ]; then
+    echo "Getting minpac for neovim..."
+    git clone https://github.com/k-takata/minpac.git $MINPAC
+fi
 
 B16="$HOME/.config/base16-shell"
 if [ ! -d "$B16" ]; then
