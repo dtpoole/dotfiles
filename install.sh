@@ -4,6 +4,8 @@ SCRIPT=$(basename "$0")
 DIR=$PWD
 cd "$DIR"
 
+mkdir -p ~/.config/nvim
+
 echo Creating links...
 for FILE in *
 do
@@ -26,7 +28,6 @@ do
     fi
 done
 
-mkdir -p ~/.config/nvim
 MINPAC=~/.config/nvim/pack/minpac/opt/minpac
 if [ ! -d "$MINPAC" ]; then
     echo "Getting minpac for neovim..."
@@ -36,28 +37,29 @@ fi
 B16="$HOME/.config/base16-shell"
 if [ ! -d "$B16" ]; then
     echo "Getting base16-shell..."
-    git clone https://github.com/chriskempson/base16-shell.git $B16
+    git clone https://github.com/chriskempson/base16-shell.git "$B16"
 else
     echo "Updating base16-shell..."
-    cd $B16 && git pull
+    cd "$B16" && git pull
 fi
 
 FZ="$HOME/.fzf/"
 if [ ! -d "$FZ" ]; then
     echo "Getting fzf..."
-    git clone --depth 1 https://github.com/junegunn/fzf.git $FZ
+    git clone --depth 1 https://github.com/junegunn/fzf.git "$FZ"
 else
     echo "Updating fzf..."
-    cd $FZ && git pull
+    cd "$FZ" && git pull
 fi
-$FZ/install --all > /dev/null
+"$FZ"/install --all > /dev/null
 
 PYEN="$HOME/.pyenv"
 if [ ! -d "$PYEN" ]; then
     echo "Getting pyenv..."
-    git clone https://github.com/pyenv/pyenv.git $PYEN
+    git clone https://github.com/pyenv/pyenv.git "$PYEN"
 else
     echo "Updating pyenv..."
-    cd $PYEN && git pull
+    cd "$PYEN" && git pull
 fi
 
+#TODO add git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
