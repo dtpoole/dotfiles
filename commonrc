@@ -22,8 +22,12 @@ ssh() {
 
 ### Variables / Apps
 
-# use vim as the visual editor
-export VISUAL=nvim
+if command_exists nvim ; then
+    export VISUAL=nvim
+else
+    export VISUAL=vim
+fi
+    
 export EDITOR=$VISUAL
 
 export LANG="en_US.UTF-8";
@@ -66,6 +70,7 @@ alias lh='ls -Alh'
 alias lt='ls -lt'
 alias e="\$EDITOR"
 alias v="\$VISUAL"
+alias vi="\$VISUAL"
 alias grep='grep --color=auto'
 # Find the option for using colors in ls, depending on the version: Linux or BSD
 ls --color -d . &>/dev/null 2>&1 && alias ls='ls --color=tty' || alias ls='ls -G'
@@ -75,7 +80,6 @@ alias h='history'
 alias more='less'
 alias j='jobs'
 alias df='df -h'
-alias vi='nvim'
 alias trim="awk '{\$1=\$1};1'"
 
 PATH=/usr/local/bin:/usr/local/sbin:$PATH
