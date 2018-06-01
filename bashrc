@@ -1,3 +1,5 @@
+#!/bin/bash
+
 source ~/.commonrc
 
 if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
@@ -5,6 +7,8 @@ if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
 fi
 
 export PS1="${host}\[\033[34m\]\w\[\033[1;33m\]\$(parse_git_branch)\[\033[00m\] $ "
+
+export TIMEFORMAT='%2lR real,  %3lU user,  %3lS system'
 
 [[ -f ~/.fzf.bash ]] && source ~/.fzf.bash
 [[ -f ~/.bashrc.local ]] && source ~/.bashrc.local

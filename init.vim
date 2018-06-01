@@ -1,6 +1,7 @@
 let mapleader=","
 
 imap jj <Esc>
+tnoremap jj <C-\><C-n>
 
 " Windows / Splits
 " ctrl-jklm  changes to that split
@@ -86,6 +87,11 @@ set nrformats=
 
 set listchars=tab:▸\ ,eol:¬  " invisibles
 
+if executable('rg')
+  set grepprg=rg\ --vimgrep
+endif
+
+
 
 " Tab completion
 set wildmode=list:longest,list:full
@@ -135,6 +141,7 @@ au VimEnter,Colorscheme * :hi CursorLineNR ctermfg=8
 let g:airline_theme='hybrid'
 let g:airline_powerline_fonts = 1
 let g:airline_skip_empty_sections = 1
+let g:airline#extensions#ale#enabled = 1
 let g:airline_mode_map = {
       \ '__' : '-',
       \ 'n'  : 'N',
@@ -152,6 +159,17 @@ let g:airline_mode_map = {
 """ Ultisnips
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsEditSplit = "vertical"
+
+""" python mode
+let g:pymode_python = 'python3'
+let g:pymode_options_colorcolumn = 0
+
+
+""" ALE
+" Disable linting for all minified JS files.
+let g:ale_pattern_options = {'\.min.js$': {'ale_enabled': 0}}
+
+
 
 """ minpac
 silent! packadd minpac

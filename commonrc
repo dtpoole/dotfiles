@@ -20,7 +20,6 @@ ssh() {
     fi
 }
 
-
 ### Variables / Apps
 
 # use vim as the visual editor
@@ -32,7 +31,7 @@ export LC_ALL="en_US.UTF-8";
 
 # setup terminal colors
 BASE16_SHELL=$HOME/.config/base16-shell/
-[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+[ -n "$PS1" ] && [ -s "$BASE16_SHELL/profile_helper.sh" ] && eval "$("$BASE16_SHELL"/profile_helper.sh)"
 [ -n "$PS1" ] && [ ! -f "$HOME/.base16_theme" ] && base16_default-dark
 
 
@@ -65,8 +64,8 @@ alias la="ls -lAh"
 alias ll='ls -alh'
 alias lh='ls -Alh'
 alias lt='ls -lt'
-alias e="$EDITOR"
-alias v="$VISUAL"
+alias e="\$EDITOR"
+alias v="\$VISUAL"
 alias grep='grep --color=auto'
 # Find the option for using colors in ls, depending on the version: Linux or BSD
 ls --color -d . &>/dev/null 2>&1 && alias ls='ls --color=tty' || alias ls='ls -G'
@@ -79,14 +78,16 @@ alias df='df -h'
 alias vi='nvim'
 alias trim="awk '{\$1=\$1};1'"
 
-REPORTTIME=10 # Show elapsed time if command took more than X seconds
-TIMEFMT=$'%E real,\t%U user,\t%S sys'
-
 PATH=/usr/local/bin:/usr/local/sbin:$PATH
 
 if [[ -d "$HOME/bin" ]]; then
     PATH="$HOME/bin:$PATH"
 fi
+
+if [[ -d "$HOME/.go" ]]; then
+    PATH="$HOME/.go/bin:$PATH"
+fi
+
 
 # node
 if [[ -s "$HOME/.nvm/nvm.sh" ]]; then
@@ -113,7 +114,7 @@ fi
 
 # keychain for ssh agent
 if command_exists keychain ; then
-    eval `keychain -q --eval --quick --agents ssh --inherit any $(cd ~/.ssh && ls id_* | sed '/\.pub$/d')`
+    eval `keychain -q --eval --quick --agents ssh --inherit any "$(cd ~/.ssh && find id_* | sed '/\.pub$/d')"`
 fi
 
 # vim: ft=sh:

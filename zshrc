@@ -38,7 +38,10 @@ source ~/.commonrc
 
 setopt promptsubst
 
-PROMPT='${SSH_CONNECTION+"%{$fg[green]%}%n@%m "}%{$fg[blue]%}%~%{$reset_color%}%{$fg_bold[green]%}$(parse_git_branch)%{$reset_color%}%{$fg[green]%}%(1j. [%j].)%{$reset_color%} %# '
+export REPORTTIME=10 # Show elapsed time if command took more than X seconds
+export TIMEFMT=$'%E real,  %U user,  %S system'
+
+PROMPT='${SSH_CONNECTION+"%{$fg[green]%}%n@%m "}%{$fg[blue]%}%~%{$reset_color%}%{$fg_bold[yellow]%}$(parse_git_branch)%{$reset_color%}%{$fg[green]%}%(1j. [%j].)%{$reset_color%} %# '
 
 [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
