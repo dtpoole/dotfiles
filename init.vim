@@ -87,11 +87,6 @@ set nrformats=
 
 set listchars=tab:▸\ ,eol:¬  " invisibles
 
-if executable('rg')
-  set grepprg=rg\ --vimgrep
-endif
-
-
 
 " Tab completion
 set wildmode=list:longest,list:full
@@ -121,6 +116,19 @@ endif
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>f :<C-u>FZF<CR>
 nnoremap <C-p> :<C-u>FZF<CR>
+
+""" Grepper
+let g:grepper = {}
+let g:grepper.tools = ['rg', 'grep', 'git']
+let g:grepper.next_tool = '<leader>g'
+" Search for the current word
+nnoremap <Leader>* :Grepper -cword -noprompt<CR>
+
+" Search for the current selection
+nmap gs <plug>(GrepperOperator)
+xmap gs <plug>(GrepperOperator)
+nnoremap <leader>g :Grepper<cr>
+
 
 """ IndentGuides
 "let g:indent_guides_enable_on_vim_startup = 1
@@ -181,6 +189,7 @@ if exists('*minpac#init')
   call minpac#add('tpope/vim-fugitive')
   call minpac#add('tpope/vim-vinegar')
   call minpac#add('scrooloose/nerdcommenter')
+  call minpac#add('mhinz/vim-grepper')
   "call minpac#add('SirVer/ultisnips')
   "call minpac#add('honza/vim-snippets')
   call minpac#add('vim-airline/vim-airline')
