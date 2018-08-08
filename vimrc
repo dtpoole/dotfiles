@@ -1,41 +1,17 @@
-""" vim-plug
-if empty(glob('~/.vim/autoload/plug.vim'))
-    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-
-call plug#begin()
-Plug 'tpope/vim-sensible'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-vinegar'
-Plug 'scrooloose/nerdcommenter'
-"Plug 'SirVer/ultisnips'
-"Plug 'honza/vim-snippets'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-"Plug 'nathanaelkane/vim-indent-guides'
-Plug 'derekwyatt/vim-scala'
-Plug 'pangloss/vim-javascript'
-Plug 'python-mode/python-mode'
-Plug 'othree/html5.vim'
-Plug 'elzr/vim-json'
-Plug 'chrisbra/csv.vim'
-Plug 'autowitch/hive.vim'
-Plug 'w0ng/vim-hybrid'
-Plug 'junegunn/fzf.vim'
-call plug#end()
-
 let mapleader=","
 
 imap jj <Esc>
 
+if has('nvim')
+    tnoremap jj <C-\><C-n>
+endif
+
 " Windows / Splits
 " ctrl-jklm  changes to that split
-map <c-j> <c-w>j
-map <c-k> <c-w>k
-map <c-l> <c-w>l
-map <c-h> <c-w>h
+nnoremap <M-h> <c-w>h
+nnoremap <M-j> <c-w>j
+nnoremap <M-k> <c-w>k
+nnoremap <M-l> <c-w>l
 
 nmap <silent> <leader>/ :nohlsearch<CR>
 
@@ -102,8 +78,8 @@ set noerrorbells
 " Backups
 set nobackup
 set nowritebackup
-silent execute '!mkdir -p ~/.vim_swap'
-set directory=~/.vim_swap//
+silent execute '!mkdir -p ~/.vim/swap'
+set directory=~/.vim/swap//
 
 set splitright
 set splitbelow
@@ -119,15 +95,25 @@ set listchars=tab:▸\ ,eol:¬  " invisibles
 set wildmode=list:longest,list:full
 set complete=.,w,t
 
-if has("autocmd")
-    au! BufWritePost init.vim,.vimrc,_vimrc,vimrc source $MYVIMRC | AirlineRefresh
-    au FileType javascript setlocal ts=4 sts=4 sw=4 noexpandtab
-    au FileType xhtml,html,css,scss,ruby,yaml,coffee,vim setlocal ts=2 sts=2 sw=2 expandtab
-    au BufRead,BufNewFile {Vagrantfile} set ft=ruby
-    au BufRead,BufNewFile *.avsc set ft=json
-    au BufNewFile,BufRead *.hql set ft=hive expandtab
-endif
 
+augroup me
+  autocmd!
+  autocmd FileType javascript setlocal ts=4 sts=4 sw=4 noexpandtab
+  autocmd FileType xhtml,html,css,scss,ruby,yaml,coffee,vim setlocal ts=2 sts=2 sw=2 expandtab
+  autocmd BufRead,BufNewFile {Vagrantfile} set ft=ruby
+  autocmd BufRead,BufNewFile *.avsc set ft=json
+  autocmd BufRead,BufNewFile *.hql set ft=hive expandtab
+  
+  autocmd BufWritePost init.vim,.vimrc,_vimrc,vimrc source $MYVIMRC | call lightline#disable() | call lightline#enable()
+
+  autocmd BufWritePre /tmp/* setlocal noundofile
+augroup end
+
+
+" persist undos
+silent execute '!mkdir -p ~/.vim/undo'
+set undofile
+set undodir=~/.vim/undo//
 
 """ netrw
 map <C-d> :Lexplore<CR>
@@ -138,55 +124,43 @@ let g:netrw_altv = 1
 
 """ fzf
 if ! empty(glob('~/.fzf'))
-    set rtp+=~/.fzf
+  set rtp+=~/.fzf
 endif
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>f :<C-u>FZF<CR>
 nnoremap <C-p> :<C-u>FZF<CR>
 
-""" IndentGuides
-"let g:indent_guides_enable_on_vim_startup = 1
-"let g:indent_guides_auto_colors = 0
-"autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=1
-"autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=8
+""" Grepper
+let g:grepper = {}
+let g:grepper.tools = ['rg', 'grep', 'git']
+let g:grepper.next_tool = '<leader>g'
+" Search for the current word
+nnoremap <Leader>* :Grepper -cword -noprompt<CR>
 
-""" Colors / Display
-set background=dark
-colorscheme hybrid
-set cursorline
-set fillchars=vert:│
-set lazyredraw
-" custom current line number highlight
-au VimEnter,Colorscheme * :hi CursorLineNR ctermfg=8
+" Search for the current selection
+nmap gs <plug>(GrepperOperator)
+xmap gs <plug>(GrepperOperator)
+nnoremap <leader>g :Grepper<cr>
 
-""" Airline
-let g:airline_theme='hybrid'
-let g:airline_powerline_fonts = 1
-let g:airline_skip_empty_sections = 1
-let g:airline_mode_map = {
-            \ '__' : '-',
-            \ 'n'  : 'N',
-            \ 'i'  : 'I',
-            \ 'R'  : 'R',
-            \ 'c'  : 'C',
-            \ 'v'  : 'V',
-            \ 'V'  : 'V',
-            \ '' : 'V',
-            \ 's'  : 'S',
-            \ 'S'  : 'S',
-            \ '' : 'S',
-            \ }
 
-""" Ultisnips
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsEditSplit = "vertical"
+""" lightline
+let g:lightline = {}
+let g:lightline.colorscheme = 'hybrid'
+set noshowmode
 
+""" python mode
+let g:pymode_python = 'python3'
+let g:pymode_options_colorcolumn = 0
+
+""" ALE
+" Disable linting for all minified JS files.
+let g:ale_pattern_options = {'\.min.js$': {'ale_enabled': 0}}
 
 """ Custom Functions
 function! Preserve(command)
-    let l:save = winsaveview()
-    execute a:command
-    call winrestview(l:save)
+  let l:save = winsaveview()
+  execute a:command
+  call winrestview(l:save)
 endfunction
 
 command! TrimTrailingWhitespace call Preserve("%s/\\s\\+$//e")
@@ -194,3 +168,71 @@ nmap _$ :TrimTrailingWhitespace<CR>
 
 command! FormatFile call Preserve("normal gg=G")
 nmap _= :FormatFile<CR>
+
+
+if has('nvim')
+  """ minpac
+  silent! packadd minpac
+
+  if exists('*minpac#init')
+      call minpac#init()
+      call minpac#add('k-takata/minpac', {'type': 'opt'})
+      call minpac#add('tpope/vim-sensible')
+      call minpac#add('tpope/vim-fugitive')
+      call minpac#add('tpope/vim-vinegar')
+      call minpac#add('scrooloose/nerdcommenter')
+      call minpac#add('mhinz/vim-grepper')
+      call minpac#add('itchyny/lightline.vim')
+      call minpac#add('derekwyatt/vim-scala', {'type': 'opt'})
+      call minpac#add('pangloss/vim-javascript')
+      call minpac#add('python-mode/python-mode')
+      call minpac#add('othree/html5.vim', {'type': 'opt'})
+      call minpac#add('elzr/vim-json')
+      call minpac#add('chrisbra/csv.vim')
+      call minpac#add('autowitch/hive.vim')
+      call minpac#add('zyphrus/vim-hybrid')
+      call minpac#add('junegunn/fzf.vim')
+      call minpac#add('w0rp/ale')
+
+      command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update()
+      command! PackClean  packadd minpac | source $MYVIMRC | call minpac#clean()
+  endif
+
+else
+
+    """ vim-plug
+    if empty(glob('~/.vim/autoload/plug.vim'))
+        silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+                    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    endif
+
+    call plug#begin()
+    Plug 'tpope/vim-sensible'
+    Plug 'tpope/vim-fugitive'
+    Plug 'tpope/vim-vinegar'
+    Plug 'scrooloose/nerdcommenter'
+    Plug 'mhinz/vim-grepper'
+    Plug 'itchyny/lightline.vim'
+    Plug 'derekwyatt/vim-scala'
+    Plug 'pangloss/vim-javascript'
+    Plug 'python-mode/python-mode'
+    Plug 'othree/html5.vim'
+    Plug 'elzr/vim-json'
+    Plug 'chrisbra/csv.vim'
+    Plug 'autowitch/hive.vim'
+    Plug 'zyphrus/vim-hybrid'
+    Plug 'junegunn/fzf.vim'
+    call plug#end()
+
+endif
+
+
+""" Colors / Display
+set background=dark
+colorscheme hybrid
+set cursorline
+set fillchars=vert:│
+set lazyredraw
+
+
