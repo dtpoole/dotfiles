@@ -103,7 +103,7 @@ augroup me
   autocmd BufRead,BufNewFile {Vagrantfile} set ft=ruby
   autocmd BufRead,BufNewFile *.avsc set ft=json
   autocmd BufRead,BufNewFile *.hql set ft=hive expandtab
-  
+
   autocmd BufWritePost init.vim,.vimrc,_vimrc,vimrc source $MYVIMRC | call lightline#disable() | call lightline#enable()
 
   autocmd BufWritePre /tmp/* setlocal noundofile
@@ -155,6 +155,17 @@ let g:pymode_options_colorcolumn = 0
 """ ALE
 " Disable linting for all minified JS files.
 let g:ale_pattern_options = {'\.min.js$': {'ale_enabled': 0}}
+
+let g:ale_linters = {
+\   'javascript': ['standard'],
+\}
+
+let g:ale_fixers = {
+            \  '*': ['remove_trailing_lines', 'trim_whitespace'],
+            \'javascript': ['standard'],
+            \}
+let g:ale_fix_on_save = 1
+
 
 """ Custom Functions
 function! Preserve(command)
@@ -234,5 +245,3 @@ colorscheme hybrid
 set cursorline
 set fillchars=vert:│
 set lazyredraw
-
-
