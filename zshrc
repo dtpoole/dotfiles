@@ -1,3 +1,9 @@
+source ~/.commonrc
+
+if command_exists brew; then
+  FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+fi
+
 autoload -U colors && colors
 
 # completion
@@ -33,8 +39,6 @@ bindkey "^P" history-search-backward
 bindkey "^Y" accept-and-hold
 bindkey "^N" insert-last-word
 bindkey -s "^T" "^[Isudo ^[A"
-
-source ~/.commonrc
 
 setopt promptsubst
 

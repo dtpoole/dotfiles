@@ -81,14 +81,9 @@ alias df='df -h'
 alias du='du -h'
 PATH=/usr/local/bin:/usr/local/sbin:$PATH
 
-if [[ -d "$HOME/bin" ]]; then
-    PATH="$HOME/bin:$PATH"
-fi
-
 if [[ -d "$HOME/.go" ]]; then
     PATH="$HOME/.go/bin:$PATH"
 fi
-
 
 # node
 if [[ -s "$HOME/.nvm/nvm.sh" ]]; then
@@ -111,6 +106,20 @@ if [[ -d "$HOME/.pyenv" ]]; then
         eval "$(command pyenv virtualenv-init -)"
         pyenv "$@"
     }
+fi
+
+linuxbrew() {
+    local LB="/home/linuxbrew/.linuxbrew"
+    if [[ -d "$LB" ]]; then
+        PATH="${LB}/bin:$PATH"
+        MANPATH="${LB}/share/man:$MANPATH"
+        INFOPATH="${LB}/share/info:$INFOPATH"
+    fi
+}
+linuxbrew
+
+if [[ -d "$HOME/bin" ]]; then
+    PATH="$HOME/bin:$PATH"
 fi
 
 # keychain for ssh agent
