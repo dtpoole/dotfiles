@@ -108,15 +108,17 @@ if [[ -d "$HOME/.pyenv" ]]; then
     }
 fi
 
-linuxbrew() {
-    local LB="/home/linuxbrew/.linuxbrew"
-    if [[ -d "$LB" ]]; then
-        PATH="${LB}/bin:$PATH"
-        MANPATH="${LB}/share/man:$MANPATH"
-        INFOPATH="${LB}/share/info:$INFOPATH"
-    fi
-}
-linuxbrew
+#anaconda
+if [[ -d "$HOME/anaconda3" ]]; then
+    PATH="$HOME/anaconda3/bin:$PATH"
+fi
+
+
+# homebrew
+export HOMEBREW_NO_INSECURE_REDIRECT=1
+export HOMEBREW_CASK_OPTS=--require-sha
+export HOMEBREW_NO_ANALYTICS=1
+
 
 if [[ -d "$HOME/bin" ]]; then
     PATH="$HOME/bin:$PATH"

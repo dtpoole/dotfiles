@@ -1,14 +1,10 @@
 source ~/.commonrc
 
-if command_exists brew; then
-  FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
-fi
-
 autoload -U colors && colors
 
 # completion
 autoload -U compinit
-compinit
+compinit -u
 
 # history settings
 setopt hist_ignore_all_dups inc_append_history
