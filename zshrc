@@ -6,6 +6,9 @@ autoload -U colors && colors
 autoload -U compinit
 compinit -u
 
+zmodload -i zsh/complist
+zstyle ':completion:*' menu select
+
 # history settings
 setopt hist_ignore_all_dups inc_append_history
 HISTFILE=~/.zhistory
