@@ -144,8 +144,22 @@ nnoremap <leader>g :Grepper<cr>
 
 
 """ lightline
-let g:lightline = {}
-let g:lightline.colorscheme = 'hybrid'
+let g:lightline = {
+      \ 'mode_map': {
+        \ 'n' : 'N',
+        \ 'i' : 'I',
+        \ 'R' : 'R',
+        \ 'v' : 'V',
+        \ 'V' : 'VL',
+        \ "\<C-v>": 'VB',
+        \ 'c' : 'C',
+        \ 's' : 'S',
+        \ 'S' : 'SL',
+        \ "\<C-s>": 'SB',
+        \ 't': 'T',
+        \ },
+      \ }
+let g:lightline.colorscheme = 'wombat'
 set noshowmode
 
 """ python mode
@@ -194,13 +208,11 @@ if has('nvim')
       call minpac#add('scrooloose/nerdcommenter')
       call minpac#add('mhinz/vim-grepper')
       call minpac#add('itchyny/lightline.vim')
-      call minpac#add('derekwyatt/vim-scala', {'type': 'opt'})
       call minpac#add('pangloss/vim-javascript')
       call minpac#add('python-mode/python-mode')
       call minpac#add('othree/html5.vim', {'type': 'opt'})
       call minpac#add('elzr/vim-json')
       call minpac#add('chrisbra/csv.vim')
-      call minpac#add('autowitch/hive.vim')
       call minpac#add('zyphrus/vim-hybrid')
       call minpac#add('junegunn/fzf.vim')
       call minpac#add('w0rp/ale')
@@ -226,15 +238,14 @@ else
     Plug 'scrooloose/nerdcommenter'
     Plug 'mhinz/vim-grepper'
     Plug 'itchyny/lightline.vim'
-    Plug 'derekwyatt/vim-scala'
     Plug 'pangloss/vim-javascript'
     Plug 'python-mode/python-mode'
     Plug 'othree/html5.vim'
     Plug 'elzr/vim-json'
     Plug 'chrisbra/csv.vim'
-    Plug 'autowitch/hive.vim'
     Plug 'zyphrus/vim-hybrid'
     Plug 'junegunn/fzf.vim'
+    Plug 'w0rp/ale'
     call plug#end()
 
 endif
