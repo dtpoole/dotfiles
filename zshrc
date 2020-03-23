@@ -33,7 +33,6 @@ bindkey jj vi-cmd-mode
 # handy keybindings
 bindkey "^A" beginning-of-line
 bindkey "^E" end-of-line
-#bindkey "^R" history-incremental-search-backward
 bindkey "^P" history-search-backward
 bindkey "^Y" accept-and-hold
 bindkey "^N" insert-last-word
@@ -44,7 +43,7 @@ setopt promptsubst
 export REPORTTIME=10 # Show elapsed time if command took more than X seconds
 export TIMEFMT=$'%E real,  %U user,  %S system'
 
-PROMPT='${SSH_CONNECTION+"%{$fg[green]%}%n@%m "}%{$fg[blue]%}%~%{$reset_color%}%{$fg_bold[yellow]%}$(git_prompt $(git_branch))%{$reset_color%}%{$fg[green]%}%(1j. [%j].)%{$reset_color%} %# '
+PROMPT='${SSH_CONNECTION+"%{$fg[green]%}%n@%m "}%{$fg[blue]%}%~%{$reset_color%}%{$fg_bold[yellow]%}$(git_status)%{$reset_color%}%{$fg[green]%}%(1j. [%j].)%{$reset_color%} %# '
 
 [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local

@@ -4,18 +4,16 @@ command_exists () {
     command -v "$1" &> /dev/null ;
 }
 
-git_prompt() {
-  if [[ -n $@ ]]; then
-    if [[ -z $(git status --porcelain 2> /dev/null) ]]; then
-      echo -e " ($@)"
-    else
-      echo -e " ($@ *)"
+git_status() {
+    x=`git branch 2> /dev/null | sed -e 's/* \(.*\)/\1/'`
+    if [[ -n $x ]]; then
+        echo -n " [${x}"
+        if [[ -n $(git status --porcelain 2> /dev/null) ]]; then
+            echo " *]"
+        else
+            echo "]"
+        fi
     fi
-  fi
-}
-
-git_branch() {
-    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ \1/'
 }
 
 # ssh wrapper that rename current tmux window to the hostname of the remote host.
