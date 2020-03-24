@@ -47,7 +47,7 @@ if show_host; then
     host="%{$fg[green]%}%n@%m "
 fi
 
-PROMPT='$host%{$fg[blue]%}%~%{$reset_color%}%{$fg_bold[yellow]%}$(git_status)%{$reset_color%}%{$fg[green]%}%(1j. [%j].)%{$reset_color%} %# '
+PROMPT='$host%{$fg[blue]%}%~%{$fg_bold[yellow]%}$(git_status)%{$fg_bold[white]%} %#%{$reset_color%} '
 
 [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
