@@ -5,7 +5,7 @@ command_exists () {
 }
 
 git_status() {
-    x=`git branch 2> /dev/null | sed -e 's/* \(.*\)/\1/'`
+    x=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
     if [[ -n $x ]]; then
         echo -n " [${x}"
         if [[ -n $(git status --porcelain 2> /dev/null) ]]; then
