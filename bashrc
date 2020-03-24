@@ -3,13 +3,13 @@
 source ~/.commonrc
 
 if command_exists brew; then
-  for completion_file in $(brew --prefix)/etc/bash_completion.d/*; do
-    source "$completion_file"
-  done
+    for completion_file in $(brew --prefix)/etc/bash_completion.d/*; do
+        source "$completion_file"
+    done
 fi
 
-if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-        host="\[\033[0;32m\]\u@\h\[\033[00m\] "
+if show_host; then
+    host="\[\033[0;32m\]\u@\h\[\033[00m\] "
 fi
 
 export PS1="${host}\[\033[34m\]\w\[\033[1;33m\]\$(git_status)\[\033[00m\] $ "

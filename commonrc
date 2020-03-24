@@ -16,6 +16,15 @@ git_status() {
     fi
 }
 
+show_host() {
+    if [ -n "${SSH_CLIENT}" ] && [ -z "${TMUX}" ]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+
 # ssh wrapper that rename current tmux window to the hostname of the remote host.
 ssh() {
     if [ "$(ps -p $(ps -p $$ -o ppid=) -o comm=)" = "tmux" ]; then

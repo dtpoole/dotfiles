@@ -43,7 +43,11 @@ setopt promptsubst
 export REPORTTIME=10 # Show elapsed time if command took more than X seconds
 export TIMEFMT=$'%E real,  %U user,  %S system'
 
-PROMPT='${SSH_CONNECTION+"%{$fg[green]%}%n@%m "}%{$fg[blue]%}%~%{$reset_color%}%{$fg_bold[yellow]%}$(git_status)%{$reset_color%}%{$fg[green]%}%(1j. [%j].)%{$reset_color%} %# '
+if show_host; then
+    host="%{$fg[green]%}%n@%m "
+fi
+
+PROMPT='$host%{$fg[blue]%}%~%{$reset_color%}%{$fg_bold[yellow]%}$(git_status)%{$reset_color%}%{$fg[green]%}%(1j. [%j].)%{$reset_color%} %# '
 
 [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
