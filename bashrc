@@ -2,12 +2,6 @@
 
 source ~/.commonrc
 
-if command_exists brew; then
-    for completion_file in $(brew --prefix)/etc/bash_completion.d/*; do
-        source "$completion_file"
-    done
-fi
-
 if show_host; then
     host="\[\033[0;32m\]\u@\h\[\033[00m\] "
 fi
