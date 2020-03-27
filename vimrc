@@ -158,7 +158,7 @@ let g:lightline = {
         \ 't': 'T',
         \ },
       \ }
-let g:lightline.colorscheme = 'hybrid'
+let g:lightline.colorscheme = 'wombat'
 set noshowmode
 
 """ python mode
