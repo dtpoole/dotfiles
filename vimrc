@@ -102,7 +102,6 @@ augroup me
   autocmd FileType xhtml,html,css,scss,ruby,yaml,coffee,vim setlocal ts=2 sts=2 sw=2 expandtab
   autocmd BufRead,BufNewFile {Vagrantfile} set ft=ruby
   autocmd BufRead,BufNewFile *.avsc set ft=json
-  autocmd BufRead,BufNewFile *.hql set ft=hive expandtab
 
   autocmd BufWritePost init.vim,.vimrc,_vimrc,vimrc source $MYVIMRC | call lightline#disable() | call lightline#enable()
 
@@ -159,7 +158,7 @@ let g:lightline = {
         \ 't': 'T',
         \ },
       \ }
-let g:lightline.colorscheme = 'wombat'
+let g:lightline.colorscheme = 'hybrid'
 set noshowmode
 
 """ python mode
@@ -208,12 +207,13 @@ if has('nvim')
       call minpac#add('scrooloose/nerdcommenter')
       call minpac#add('mhinz/vim-grepper')
       call minpac#add('itchyny/lightline.vim')
+      call minpac#add('maximbaz/lightline-ale')
       call minpac#add('pangloss/vim-javascript')
       call minpac#add('python-mode/python-mode')
       call minpac#add('othree/html5.vim', {'type': 'opt'})
       call minpac#add('elzr/vim-json')
       call minpac#add('chrisbra/csv.vim')
-      call minpac#add('zyphrus/vim-hybrid')
+      call minpac#add('dtpoole/vim-hybrid')
       call minpac#add('junegunn/fzf.vim')
       call minpac#add('w0rp/ale')
 
@@ -238,18 +238,21 @@ else
     Plug 'scrooloose/nerdcommenter'
     Plug 'mhinz/vim-grepper'
     Plug 'itchyny/lightline.vim'
+    Plug 'maximbaz/lightline-ale'
     Plug 'pangloss/vim-javascript'
     Plug 'python-mode/python-mode'
     Plug 'othree/html5.vim'
     Plug 'elzr/vim-json'
     Plug 'chrisbra/csv.vim'
-    Plug 'zyphrus/vim-hybrid'
+    Plug 'dtpoole/vim-hybrid'
     Plug 'junegunn/fzf.vim'
     Plug 'w0rp/ale'
     call plug#end()
 
 endif
 
+let g:hybrid_custom_term_colors = 1
+"let g:hybrid_reduced_contrast = 1
 
 """ Colors / Display
 set background=dark
