@@ -26,6 +26,26 @@ show_host() {
 
 trim() { awk '{$1=$1};1' "$@"; }
 
+_colorz() {
+    # Base16 Shell
+    local BASE16_SHELL="$HOME/.config/base16-shell/"
+    local B16_THEME="base16_default-dark"
+    if [[ -d "$BASE16_SHELL" ]]; then
+
+        [ -n "$PS1" ] && \
+            [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+            eval "$("$BASE16_SHELL/profile_helper.sh")"
+
+        eval "$B16_THEME"
+    fi
+
+    # enable colored output from ls, etc
+    if command_exists dircolors ; then
+        eval "$(dircolors ~/.dir_colors)"
+    fi
+
+}
+
 ### Variables / Apps
 
 if command_exists nvim ; then
@@ -53,17 +73,7 @@ export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 
 PATH=/usr/local/bin:/usr/local/sbin:$PATH
 
-# setup terminal colors
-if [[ -d "$HOME/.config/base16-shell" ]]; then
-    BASE16_SHELL="$HOME/.config/base16-shell"
-    [ -n "$PS1" ] && [ -s "$BASE16_SHELL/profile_helper.sh" ] && eval "$("$BASE16_SHELL"/profile_helper.sh)"
-    [ -n "$PS1" ] && [ ! -f "$HOME/.base16_theme" ] && base16_default-dark
-fi
-
-# enable colored output from ls, etc
-if command_exists dircolors ; then
-    eval "$(dircolors ~/.dir_colors)"
-fi
+_colorz
 
 if [[ -d "$HOME/.go" ]]; then
     PATH="$HOME/.go/bin:$PATH"
@@ -115,8 +125,10 @@ if command_exists brew; then
 
 fi
 
+
 # Find the option for using colors in ls, depending on the version: Linux or BSD
 ls --color -d . &>/dev/null 2>&1 && alias ls='ls --color=tty' || alias ls='ls -G'
+
 
 ### Aliases
 alias ln='ln -v'
