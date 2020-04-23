@@ -10,12 +10,12 @@ zmodload -i zsh/complist
 zstyle ':completion:*' menu select
 
 # history settings
-setopt hist_ignore_all_dups inc_append_history
-HISTFILE=~/.zhistory
+setopt share_history append_history hist_ignore_all_dups inc_append_history
+setopt hist_verify
+HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 
-# awesome cd movements from zshkit
 setopt autocd autopushd pushdminus pushdsilent pushdtohome cdablevars
 DIRSTACKSIZE=5
 
@@ -47,7 +47,15 @@ if show_host; then
     host="%{$fg[green]%}%n@%m "
 fi
 
-PROMPT='$host%{$fg[blue]%}%~%{$fg_bold[yellow]%}$(git_status)%{$fg_bold[white]%} %#%{$reset_color%} '
+PROMPT='$host%{$fg[blue]%}%3~%{$fg_bold[yellow]%}$(git_status)%{$fg_bold[white]%} %#%{$reset_color%} '
+
+# enable colored output from ls, etc
+if command_exists dircolors ; then
+    eval "$(dircolors ~/.dir_colors)"
+fi
 
 [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+
+# remove dups from PATH
+typeset -U path 
