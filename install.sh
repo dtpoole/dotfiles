@@ -36,6 +36,13 @@ nvim() {
         echo "Getting minpac for neovim..."
         git clone https://github.com/k-takata/minpac.git $MINPAC
     fi
+
+    MINPAC=~/.vim/pack/minpac/opt/minpac
+    if [ ! -d "$MINPAC" ]; then
+        echo "Getting minpac for vim..."
+        git clone https://github.com/k-takata/minpac.git $MINPAC
+    fi
+    
 }
 
 base16() {

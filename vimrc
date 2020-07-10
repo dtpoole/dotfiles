@@ -3,7 +3,7 @@ let mapleader=","
 imap jj <Esc>
 
 if has('nvim')
-    tnoremap jj <C-\><C-n>
+  tnoremap jj <C-\><C-n>
 endif
 
 " Windows / Splits
@@ -142,24 +142,26 @@ xmap gs <plug>(GrepperOperator)
 nnoremap <leader>g :Grepper<cr>
 
 
+set noshowmode
+
+
 """ lightline
 let g:lightline = {
       \ 'mode_map': {
-        \ 'n' : 'N',
-        \ 'i' : 'I',
-        \ 'R' : 'R',
-        \ 'v' : 'V',
-        \ 'V' : 'VL',
-        \ "\<C-v>": 'VB',
-        \ 'c' : 'C',
-        \ 's' : 'S',
-        \ 'S' : 'SL',
-        \ "\<C-s>": 'SB',
-        \ 't': 'T',
-        \ },
+      \ 'n' : 'N',
+      \ 'i' : 'I',
+      \ 'R' : 'R',
+      \ 'v' : 'V',
+      \ 'V' : 'VL',
+      \ "\<C-v>": 'VB',
+      \ 'c' : 'C',
+      \ 's' : 'S',
+      \ 'S' : 'SL',
+      \ "\<C-s>": 'SB',
+      \ 't': 'T',
+      \ },
+      \'colorscheme': 'wombat'
       \ }
-let g:lightline.colorscheme = 'wombat'
-set noshowmode
 
 """ python mode
 let g:pymode_python = 'python3'
@@ -170,14 +172,19 @@ let g:pymode_options_colorcolumn = 0
 let g:ale_pattern_options = {'\.min.js$': {'ale_enabled': 0}}
 
 let g:ale_linters = {
-\   'javascript': ['standard'],
-\}
+      \   'javascript': ['standard'],
+      \}
 
 let g:ale_fixers = {
-            \  '*': ['remove_trailing_lines', 'trim_whitespace'],
-            \'javascript': ['standard'],
-            \}
+      \  '*': ['remove_trailing_lines', 'trim_whitespace'],
+      \'javascript': ['standard'],
+      \}
 let g:ale_fix_on_save = 1
+
+
+let g:hybrid_custom_term_colors = 1
+"let g:hybrid_reduced_contrast = 1
+
 
 
 """ Custom Functions
@@ -194,69 +201,43 @@ command! FormatFile call Preserve("normal gg=G")
 nmap _= :FormatFile<CR>
 
 
-if has('nvim')
-  """ minpac
-  silent! packadd minpac
-
-  if exists('*minpac#init')
-      call minpac#init()
-      call minpac#add('k-takata/minpac', {'type': 'opt'})
-      call minpac#add('tpope/vim-sensible')
-      call minpac#add('tpope/vim-fugitive')
-      call minpac#add('tpope/vim-vinegar')
-      call minpac#add('scrooloose/nerdcommenter')
-      call minpac#add('mhinz/vim-grepper')
-      call minpac#add('itchyny/lightline.vim')
-      call minpac#add('maximbaz/lightline-ale')
-      call minpac#add('pangloss/vim-javascript')
-      call minpac#add('python-mode/python-mode')
-      call minpac#add('othree/html5.vim', {'type': 'opt'})
-      call minpac#add('elzr/vim-json')
-      call minpac#add('chrisbra/csv.vim')
-      call minpac#add('dtpoole/vim-hybrid')
-      call minpac#add('junegunn/fzf.vim')
-      call minpac#add('w0rp/ale')
-
-      command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update()
-      command! PackClean  packadd minpac | source $MYVIMRC | call minpac#clean()
-      command! PackStatus packadd minpac | source $MYVIMRC | call minpac#status()
-  endif
-
-else
-
-    """ vim-plug
-    if empty(glob('~/.vim/autoload/plug.vim'))
-        silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-                    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-        autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-    endif
-
-    call plug#begin()
-    Plug 'tpope/vim-sensible'
-    Plug 'tpope/vim-fugitive'
-    Plug 'tpope/vim-vinegar'
-    Plug 'scrooloose/nerdcommenter'
-    Plug 'mhinz/vim-grepper'
-    Plug 'itchyny/lightline.vim'
-    Plug 'maximbaz/lightline-ale'
-    Plug 'pangloss/vim-javascript'
-    Plug 'python-mode/python-mode'
-    Plug 'othree/html5.vim'
-    Plug 'elzr/vim-json'
-    Plug 'chrisbra/csv.vim'
-    Plug 'dtpoole/vim-hybrid'
-    Plug 'junegunn/fzf.vim'
-    Plug 'w0rp/ale'
-    call plug#end()
-
-endif
-
-let g:hybrid_custom_term_colors = 1
-"let g:hybrid_reduced_contrast = 1
-
 """ Colors / Display
 set background=dark
 colorscheme hybrid
 set cursorline
 set fillchars=vert:│
+set laststatus=2
 set lazyredraw
+
+if has('autocmd')
+  filetype plugin indent on
+endif
+if has('syntax') && !exists('g:syntax_on')
+  syntax enable
+endif
+
+" minpac
+if exists('*minpac#init')
+  call minpac#init()
+  call minpac#add('k-takata/minpac', {'type': 'opt'})
+  "call minpac#add('tpope/vim-sensible')
+  call minpac#add('tpope/vim-fugitive')
+  call minpac#add('tpope/vim-vinegar')
+  call minpac#add('scrooloose/nerdcommenter')
+  call minpac#add('mhinz/vim-grepper')
+  call minpac#add('itchyny/lightline.vim')
+  call minpac#add('maximbaz/lightline-ale')
+  call minpac#add('pangloss/vim-javascript')
+  call minpac#add('python-mode/python-mode')
+  call minpac#add('othree/html5.vim', {'type': 'opt'})
+  call minpac#add('elzr/vim-json')
+  call minpac#add('chrisbra/csv.vim')
+  call minpac#add('dtpoole/vim-hybrid')
+  call minpac#add('junegunn/fzf.vim')
+  call minpac#add('w0rp/ale')
+  call minpac#add('isobit/vim-caddyfile')
+endif
+
+command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update('', {'do': 'call minpac#status()'})
+command! PackClean  packadd minpac | source $MYVIMRC | call minpac#clean()
+command! PackStatus packadd minpac | source $MYVIMRC | call minpac#status()
