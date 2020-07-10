@@ -185,7 +185,7 @@ let g:ale_fix_on_save = 1
 let g:hybrid_custom_term_colors = 1
 "let g:hybrid_reduced_contrast = 1
 
-
+let g:vim_markdown_folding_disabled = 1
 
 """ Custom Functions
 function! Preserve(command)
@@ -221,7 +221,7 @@ if exists('*minpac#init')
   call minpac#init()
   call minpac#add('k-takata/minpac', {'type': 'opt'})
   "call minpac#add('tpope/vim-sensible')
-  call minpac#add('tpope/vim-fugitive')
+  "call minpac#add('tpope/vim-fugitive')
   call minpac#add('tpope/vim-vinegar')
   call minpac#add('scrooloose/nerdcommenter')
   call minpac#add('mhinz/vim-grepper')
@@ -229,15 +229,20 @@ if exists('*minpac#init')
   call minpac#add('maximbaz/lightline-ale')
   call minpac#add('pangloss/vim-javascript')
   call minpac#add('python-mode/python-mode')
-  call minpac#add('othree/html5.vim', {'type': 'opt'})
+  call minpac#add('fatih/vim-go')
   call minpac#add('elzr/vim-json')
   call minpac#add('chrisbra/csv.vim')
   call minpac#add('dtpoole/vim-hybrid')
   call minpac#add('junegunn/fzf.vim')
   call minpac#add('w0rp/ale')
   call minpac#add('isobit/vim-caddyfile')
+  call minpac#add('stephpy/vim-yaml')
+  call minpac#add('plasticboy/vim-markdown')
+  call minpac#add('ekalinin/Dockerfile.vim')
 endif
 
 command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update('', {'do': 'call minpac#status()'})
 command! PackClean  packadd minpac | source $MYVIMRC | call minpac#clean()
 command! PackStatus packadd minpac | source $MYVIMRC | call minpac#status()
+
+" vim:set ft=vim et sw=2:
