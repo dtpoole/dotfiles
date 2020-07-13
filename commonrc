@@ -78,19 +78,10 @@ PATH=/usr/local/bin:/usr/local/sbin:$PATH
 
 _colorz
 
+# golang
 if [[ -d "$HOME/.go" ]]; then
+    export GOPATH=$HOME/.go
     PATH="$HOME/.go/bin:$PATH"
-fi
-
-# node
-if [[ -s "$HOME/.nvm/nvm.sh" ]]; then
-    nvm() {
-        echo Loading nvm...
-        unset nvm
-        export NVM_DIR="$HOME/.nvm"
-        source "$NVM_DIR/nvm.sh"
-        nvm "$@"
-    }
 fi
 
 # python
@@ -103,11 +94,6 @@ if [[ -d "$HOME/.pyenv" ]]; then
         eval "$(command pyenv virtualenv-init -)"
         pyenv "$@"
     }
-fi
-
-#anaconda
-if [[ -d "$HOME/anaconda3" ]]; then
-    PATH="$HOME/anaconda3/bin:$PATH"
 fi
 
 # homebrew
@@ -129,9 +115,11 @@ if command_exists brew; then
 fi
 
 # fzf
-export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore-vcs'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_DEFAULT_OPTS='--preview "bat --style=numbers --color=always --line-range :500 {}"'
+if command_exists rg ; then
+    export FZF_DEFAULT_COMMAND='rg --debug --files --hidden --follow --no-ignore-vcs'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+fi
+
 
 # Find the option for using colors in ls, depending on the version: Linux or BSD
 ls --color -d . &>/dev/null 2>&1 && alias ls='ls --color=tty' || alias ls='ls -G'
@@ -162,8 +150,8 @@ if [[ -d "$HOME/bin" ]]; then
 fi
 
 # keychain for ssh agent
-if command_exists keychain ; then
+if command_exists keychain && [ -d "$HOME/.ssh" ]; then
     eval `keychain -q --eval --quick --agents ssh --inherit any "$(cd ~/.ssh && find id_* | sed '/\.pub$/d')"`
 fi
 
-# vim: ft=bash:
+# vim:set ft=bash et sw=4:

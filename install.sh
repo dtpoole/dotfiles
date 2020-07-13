@@ -1,30 +1,38 @@
 #!/usr/bin/env bash
 
+set -eu -o pipefail
+
 SCRIPT=$(basename "$0")
 DIR=$PWD
-cd "$DIR"
+cd "$DIR" || exit
 
-mkdir -p ~/bin
 
-echo Creating links...
-for FILE in *
-do
-    if [ "$FILE" = "$SCRIPT" ] || [ "$FILE" = "README.md" ]; then
-        continue
-    fi
+symlinks() {
+    echo ---- Creating symlinks...
 
-    echo "-- $FILE"
+    for f in "$DIR"/*
+    do
+        FILE=${f##*/}
 
-    DEST="$HOME/.$FILE"
+        if [ "$FILE" = "$SCRIPT" ] || [ "$FILE" = "README.md" ] || [ "$FILE" = "Dockerfile" ] || [ "$FILE" = "run_docker.sh" ]; then
+            continue
+        fi
 
-    if [ -e "$DEST" ] || [ -L "$DEST" ]; then
-        echo "$DEST exists."
-    else
-        ln -s "$DIR/$FILE" "$DEST"
-    fi
-done
+        echo "-- $FILE"
+
+        DEST="$HOME/.$FILE"
+
+        if [ -e "$DEST" ] || [ -L "$DEST" ]; then
+            echo "$DEST exists."
+        else
+            ln -s "$DIR/$FILE" "$DEST"
+        fi
+    done
+    echo
+}
 
 nvim() {
+    echo ---- vim/nvim
     mkdir -p ~/.config/nvim
     NVIMCONF="$HOME/.config/nvim/init.vim"
     if [ ! -e "$NVIMCONF" ]; then
@@ -42,33 +50,38 @@ nvim() {
         echo "Getting minpac for vim..."
         git clone https://github.com/k-takata/minpac.git $MINPAC
     fi
-    
+    echo
 }
 
 base16() {
+    echo ---- base16-shell
     B16="$HOME/.config/base16-shell"
     if [ ! -d "$B16" ]; then
         echo "Getting base16-shell..."
         git clone https://github.com/chriskempson/base16-shell.git "$B16"
     else
         echo "Updating base16-shell..."
-        cd "$B16" && git pull
+        cd "$B16" && git pull --rebase
     fi
+    echo
 }
 
 fzf() {
+    echo ---- fzf
     FZ="$HOME/.fzf/"
     if [ ! -d "$FZ" ]; then
         echo "Getting fzf..."
         git clone --depth 1 https://github.com/junegunn/fzf.git "$FZ"
     else
         echo "Updating fzf..."
-        cd "$FZ" && git pull
+        cd "$FZ" && git pull --rebase
     fi
     "$FZ"/install --all > /dev/null
+    echo
 }
 
 pyenv() {
+    echo ---- pyenv
     PYEN="$HOME/.pyenv"
     if [ ! -d "$PYEN" ]; then
         echo "Getting pyenv..."
@@ -77,37 +90,40 @@ pyenv() {
         git clone https://github.com/pyenv/pyenv-virtualenv.git "${PYEN}/plugins/pyenv-virtualenv"
     else
         echo "Updating pyenv..."
-        cd "$PYEN" && git pull
+        cd "$PYEN" && git pull --rebase
         echo "Updating pyenv-virtualenv..."
-        cd "${PYEN}/plugins/pyenv-virtualenv" && git pull
+        cd "${PYEN}/plugins/pyenv-virtualenv" && git pull --rebase
     fi
-}
-
-nvm() {
-    NVMEN="$HOME/.nvm"
-    if [ ! -d "$NVMEN" ]; then
-        echo "Getting nvm..."
-        git clone https://github.com/creationix/nvm.git "$NVMEN"
-        cd "$NVMEN"
-    else
-        echo "Updating nvm..."
-        cd "$NVMEN"
-        git fetch --tags origin
-    fi
-    git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)`
+    echo
 }
 
 keychain() {
-    echo "Installing keychain..."
-    curl -o ~/bin/keychain https://raw.githubusercontent.com/funtoo/keychain/master/keychain
+    echo "---- keychain"
+    mkdir -p "$HOME/bin"
+    curl -so ~/bin/keychain https://raw.githubusercontent.com/funtoo/keychain/master/keychain
     chmod 755 ~/bin/keychain
 }
 
+
+YES=0
+REPLY=0
+
+if [ $# -eq 1 ]; then
+    if [ "$1" == "-y" ]; then
+        YES=1
+    fi
+fi
+
+symlinks
 nvim
 base16
 fzf
 pyenv
-nvm
 
-read -p "Install/Update keychain (y/n)? " REPLY
-[[ $REPLY =~ ^[Yy]$ ]] && keychain
+if [[ $YES -eq 0 ]]; then
+    read -rp "Install/Update keychain (y/n)? " REPLY
+fi
+
+if [[ $REPLY =~ ^[Yy]$ ]] || [ $YES -eq 1 ]; then
+    keychain
+fi
