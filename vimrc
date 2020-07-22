@@ -38,9 +38,7 @@ nmap <leader>n :set number!<CR>
 
 nmap <silent> <leader>v :vsplit $MYVIMRC<CR>
 
-
 " Editor
-" -------------------------------------------------------------------------
 
 " Line breaks
 set wrap linebreak nolist
@@ -95,15 +93,14 @@ set listchars=tab:▸\ ,eol:¬  " invisibles
 set wildmode=list:longest,list:full
 set complete=.,w,t
 
-
 augroup me
   autocmd!
   autocmd FileType javascript setlocal ts=4 sts=4 sw=4 noexpandtab
-  autocmd FileType xhtml,html,css,scss,ruby,yaml,coffee,vim setlocal ts=2 sts=2 sw=2 expandtab
+  autocmd FileType xhtml,html,css,scss,ruby,yaml,coffee,vim,vimrc setlocal ts=2 sts=2 sw=2 expandtab
   autocmd BufRead,BufNewFile {Vagrantfile} set ft=ruby
   autocmd BufRead,BufNewFile *.avsc set ft=json
 
-  autocmd BufWritePost init.vim,.vimrc,_vimrc,vimrc source $MYVIMRC | call lightline#disable() | call lightline#enable()
+  autocmd BufWritePost init.vim,.vimrc,_vimrc,vimrc source $MYVIMRC
 
   autocmd BufWritePre /tmp/* setlocal noundofile
 augroup end
@@ -124,10 +121,10 @@ let g:netrw_altv = 1
 """ fzf
 if ! empty(glob('~/.fzf'))
   set rtp+=~/.fzf
+  nnoremap <leader>b :Buffers<CR>
+  nnoremap <leader>f :<C-u>FZF<CR>
+  nnoremap <C-p> :<C-u>FZF<CR>
 endif
-nnoremap <leader>b :Buffers<CR>
-nnoremap <leader>f :<C-u>FZF<CR>
-nnoremap <C-p> :<C-u>FZF<CR>
 
 """ Grepper
 let g:grepper = {}
@@ -141,31 +138,12 @@ nmap gs <plug>(GrepperOperator)
 xmap gs <plug>(GrepperOperator)
 nnoremap <leader>g :Grepper<cr>
 
-
-set noshowmode
-
-
-""" lightline
-let g:lightline = {
-      \ 'mode_map': {
-      \ 'n' : 'N',
-      \ 'i' : 'I',
-      \ 'R' : 'R',
-      \ 'v' : 'V',
-      \ 'V' : 'VL',
-      \ "\<C-v>": 'VB',
-      \ 'c' : 'C',
-      \ 's' : 'S',
-      \ 'S' : 'SL',
-      \ "\<C-s>": 'SB',
-      \ 't': 'T',
-      \ },
-      \'colorscheme': 'wombat'
-      \ }
-
 """ python mode
 let g:pymode_python = 'python3'
 let g:pymode_options_colorcolumn = 0
+
+""" go
+let g:go_version_warning = 0
 
 """ ALE
 " Disable linting for all minified JS files.
@@ -173,6 +151,7 @@ let g:ale_pattern_options = {'\.min.js$': {'ale_enabled': 0}}
 
 let g:ale_linters = {
       \   'javascript': ['standard'],
+      \   'vim': ['vint'],
       \}
 
 let g:ale_fixers = {
@@ -181,10 +160,7 @@ let g:ale_fixers = {
       \}
 let g:ale_fix_on_save = 1
 
-
-let g:hybrid_custom_term_colors = 1
-"let g:hybrid_reduced_contrast = 1
-
+""" vim-markdown
 let g:vim_markdown_folding_disabled = 1
 
 """ Custom Functions
@@ -204,10 +180,12 @@ nmap _= :FormatFile<CR>
 """ Colors / Display
 set background=dark
 colorscheme hybrid
+"let g:hybrid_custom_term_colors = 1
 set cursorline
 set fillchars=vert:│
 set laststatus=2
 set lazyredraw
+set showmode
 
 if has('autocmd')
   filetype plugin indent on
@@ -216,17 +194,52 @@ if has('syntax') && !exists('g:syntax_on')
   syntax enable
 endif
 
+
+""" Status Line
+"""" Status Colors
+hi User1 ctermfg=253 ctermbg=24
+hi User2 ctermfg=239 ctermbg=235
+hi User3 ctermfg=245 ctermbg=237
+hi User4 ctermfg=24 ctermbg=237
+
+function! Status(winnum)
+  let active = a:winnum == winnr()
+  if active
+    let stat = "%1*"
+  else
+    let stat = "%2*"
+  endif
+  let stat .= "[%n]\ %<%.99f\ %h%w%m%r%{exists('*FugitiveStatusline')?FugitiveStatusline():''}%y "
+  if active
+    let stat .= "%4*%3*"
+  end
+  let stat .= "%=%-16(\ %l,%c%V\ %)%P" " Right
+  return stat
+endfunction
+
+function! s:RefreshStatus()
+  for nr in range(1, winnr('$'))
+    call setwinvar(nr, '&statusline', '%!Status(' . nr . ')')
+  endfor
+endfunction
+
+augroup status
+  autocmd!
+  autocmd VimEnter,WinEnter,BufWinEnter * call <SID>RefreshStatus()
+augroup END
+
+"let g:hybrid_custom_term_colors=1
+
+
 " minpac
-if exists('*minpac#init')
+function! PackInit() abort
+  packadd minpac
   call minpac#init()
   call minpac#add('k-takata/minpac', {'type': 'opt'})
-  "call minpac#add('tpope/vim-sensible')
-  "call minpac#add('tpope/vim-fugitive')
+  call minpac#add('tpope/vim-fugitive')
   call minpac#add('tpope/vim-vinegar')
   call minpac#add('scrooloose/nerdcommenter')
   call minpac#add('mhinz/vim-grepper')
-  call minpac#add('itchyny/lightline.vim')
-  call minpac#add('maximbaz/lightline-ale')
   call minpac#add('pangloss/vim-javascript')
   call minpac#add('python-mode/python-mode')
   call minpac#add('fatih/vim-go')
@@ -239,10 +252,8 @@ if exists('*minpac#init')
   call minpac#add('stephpy/vim-yaml')
   call minpac#add('plasticboy/vim-markdown')
   call minpac#add('ekalinin/Dockerfile.vim')
-endif
+endfunction
 
-command! PackUpdate packadd minpac | source $MYVIMRC | call minpac#update('', {'do': 'call minpac#status()'})
-command! PackClean  packadd minpac | source $MYVIMRC | call minpac#clean()
-command! PackStatus packadd minpac | source $MYVIMRC | call minpac#status()
-
-" vim:set ft=vim et sw=2:
+command! PackUpdate call PackInit() | call minpac#update('', {'do': 'call minpac#status()'})
+command! PackClean  call PackInit() | call minpac#clean()
+command! PackStatus call PackInit() | call minpac#status()
