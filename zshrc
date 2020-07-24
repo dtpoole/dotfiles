@@ -1,10 +1,15 @@
 source ~/.commonrc
 
-autoload -U colors && colors
+setopt extendedglob
 
 # completion
-autoload -U compinit
-compinit -u
+autoload -Uz compinit
+if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
+  compinit -u
+  compdump
+else
+  compinit -C
+fi
 
 zmodload -i zsh/complist
 zstyle ':completion:*' menu select
@@ -18,9 +23,6 @@ SAVEHIST=10000
 
 setopt autocd autopushd pushdminus pushdsilent pushdtohome cdablevars
 DIRSTACKSIZE=5
-
-# Enable extended globbing
-setopt extendedglob
 
 # Allow [ or ] whereever you want
 unsetopt nomatch
@@ -40,22 +42,19 @@ bindkey -s "^T" "^[Isudo ^[A"
 
 setopt promptsubst
 
-export REPORTTIME=10 # Show elapsed time if command took more than X seconds
+export REPORTTIME=30 # Show elapsed time if command took more than X seconds
 export TIMEFMT=$'%E real,  %U user,  %S system'
 
 if show_host; then
     host="%{$fg[green]%}%n@%m "
 fi
 
-PROMPT='$host%{$fg[blue]%}%3~%{$fg_bold[yellow]%}$(git_status)%{$fg_bold[white]%} %#%{$reset_color%} '
+PROMPT='$host%F{blue}%3~%B%F{yellow}$(git_status)%B%F{white} %#%b%F{white} '
 
-# enable colored output from ls, etc
-if command_exists dircolors ; then
-    eval "$(dircolors ~/.dir_colors)"
-fi
+_colorz
 
 [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 
 # remove dups from PATH
-typeset -U path 
+typeset -U path

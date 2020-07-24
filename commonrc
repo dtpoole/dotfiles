@@ -1,5 +1,4 @@
 ### Functions
-
 command_exists () {
     command -v "$1" &> /dev/null ;
 }
@@ -41,7 +40,6 @@ _colorz() {
             eval base16_default-dark
         fi
     fi
-
     # enable colored output from ls, etc
     if command_exists dircolors ; then
         eval "$(dircolors ~/.dir_colors)"
@@ -76,7 +74,6 @@ export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 
 PATH=/usr/local/bin:/usr/local/sbin:$PATH
 
-_colorz
 
 # golang
 if [[ -d "$HOME/.go" ]]; then
@@ -85,16 +82,16 @@ if [[ -d "$HOME/.go" ]]; then
 fi
 
 # python
-if [[ -d "$HOME/.pyenv" ]]; then
     pyenv() {
-        echo Loading pyenv...
-        unset pyenv
-        PATH="$HOME/.pyenv/bin:$PATH"
-        eval "$(command pyenv init -)"
-        eval "$(command pyenv virtualenv-init -)"
-        pyenv "$@"
+        if [[ -d "$HOME/.pyenv" ]]; then
+            echo Loading pyenv...
+            unset pyenv
+            PATH="$HOME/.pyenv/bin:$PATH"
+            eval "$(command pyenv init -)"
+            eval "$(command pyenv virtualenv-init -)"
+            pyenv "$@"
+        fi
     }
-fi
 
 # homebrew
 if command_exists brew; then
@@ -103,13 +100,13 @@ if command_exists brew; then
     export HOMEBREW_NO_ANALYTICS=1
 
     if [[ -n "$BASH" ]]; then
-        for completion_file in $(brew --prefix)/etc/bash_completion.d/*; do
+        for completion_file in /usr/local/etc/bash_completion.d/*; do
             source "$completion_file"
         done
     fi
 
-    if [[ -d "$(brew --prefix)/opt/coreutils/libexec/gnubin" ]]; then
-        PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
+    if [[ -d "/usr/local/opt/coreutils/libexec/gnubin" ]]; then
+        PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
     fi
 
 fi
