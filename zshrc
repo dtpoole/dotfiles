@@ -5,10 +5,10 @@ setopt extendedglob
 # completion
 autoload -Uz compinit
 if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
-  compinit -u
-  compdump
+    echo "compinit"
+    compinit -u -D
 else
-  compinit -C
+    compinit -C
 fi
 
 zmodload -i zsh/complist
@@ -46,15 +46,16 @@ export REPORTTIME=30 # Show elapsed time if command took more than X seconds
 export TIMEFMT=$'%E real,  %U user,  %S system'
 
 if show_host; then
-    host="%{$fg[green]%}%n@%m "
+    host="%F{green}%n@%m "
 fi
 
 PROMPT='$host%F{blue}%3~%B%F{yellow}$(git_status)%B%F{white} %#%b%F{white} '
 
-_colorz
 
 [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 
 # remove dups from PATH
 typeset -U path
+
+_colorz
