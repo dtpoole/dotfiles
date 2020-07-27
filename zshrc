@@ -5,8 +5,8 @@ setopt extendedglob
 # completion
 autoload -Uz compinit
 if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
-    echo "compinit"
     compinit -u -D
+    touch ~/.zcompdump
 else
     compinit -C
 fi
