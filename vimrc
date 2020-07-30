@@ -1,5 +1,7 @@
-let mapleader=","
+set encoding=utf-8
+scriptencoding utf-8
 
+let mapleader=','
 imap jj <Esc>
 
 if has('nvim')
@@ -52,7 +54,7 @@ set autoindent
 
 set backspace=indent,eol,start
 
-set mat=5
+set matchtime=5
 
 set cursorline
 set showmatch     " set show matching parenthesis
@@ -66,8 +68,6 @@ set incsearch
 set history=1000
 set undolevels=1000
 set wildignore=*.swp,*.bak,*.pyc,*.class,.svn,.git,*.flac,*.mp3,*.m4a
-
-set encoding=utf-8
 
 set title
 set visualbell
@@ -120,7 +120,7 @@ let g:netrw_altv = 1
 
 """ fzf
 if ! empty(glob('~/.fzf'))
-  set rtp+=~/.fzf
+  set runtimepath+=~/.fzf
   nnoremap <leader>b :Buffers<CR>
   nnoremap <leader>f :<C-u>FZF<CR>
   nnoremap <C-p> :<C-u>FZF<CR>
@@ -205,15 +205,15 @@ hi User4 ctermfg=24 ctermbg=237
 function! Status(winnum)
   let active = a:winnum == winnr()
   if active
-    let stat = "%1*"
+    let stat = '%1*'
   else
-    let stat = "%2*"
+    let stat = '%2*'
   endif
   let stat .= "[%n]\ %<%.99f\ %h%w%m%r%{exists('*FugitiveStatusline')?FugitiveStatusline():''}%y "
   if active
-    let stat .= "%4*%3*"
+    let stat .= '%4*%3*'
   end
-  let stat .= "%=%-16(\ %l,%c%V\ %)%P" " Right
+  let stat .= '%=%-16(\ %l,%c%V\ %)%P' " Right
   return stat
 endfunction
 
