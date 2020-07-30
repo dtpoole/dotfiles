@@ -213,7 +213,7 @@ function! Status(winnum)
   if active
     let stat .= '%4*%3*'
   end
-  let stat .= '%=%-16(\ %l,%c%V\ %)%P' " Right
+  let stat .= '%=%-16( %l,%c%V %)%P' " Right
   return stat
 endfunction
 
