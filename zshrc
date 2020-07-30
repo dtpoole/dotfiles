@@ -127,6 +127,7 @@ fi
 
 # remove dups from PATH
 typeset -U PATH path
+export PATH=$PATH
 
 (( $+commands[keychain] )) && eval "$(keychain -q --eval --quick --ignore-missing --agents ssh --inherit any id_rsa id_ed25519)"
 
