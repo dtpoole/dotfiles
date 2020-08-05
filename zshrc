@@ -138,7 +138,6 @@ bindkey -s '^e' 'vi $(fzf)\n'
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 [[ -f ~/.base16_theme ]] && source ~/.base16_theme
 
-# directory colors
 if [[ -z "$LS_COLORS" ]]; then
   (( $+commands[dircolors] )) && eval "$(dircolors -b ~/.dir_colors)"
 fi
@@ -147,6 +146,7 @@ fi
 typeset -U PATH path
 export PATH=$PATH
 
+# -- keychain
 (( $+commands[keychain] )) && eval "$(keychain -q --eval --quick --ignore-missing --agents ssh --inherit any id_rsa id_ed25519)"
 
 # vim:set ft=zsh et sw=2:

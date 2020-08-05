@@ -116,7 +116,7 @@ fi
 
 symlinks
 nvim
-base16
+#base16
 fzf
 pyenv
 

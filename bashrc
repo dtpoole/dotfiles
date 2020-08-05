@@ -1,5 +1,9 @@
 #!/bin/bash
 
+export LANG="en_US.UTF-8";
+export LC_ALL="en_US.UTF-8";
+
+
 if [ -n "${SSH_CLIENT}" ] && [ -z "${TMUX}" ]; then
     host="\[\033[0;32m\]\u@\h\[\033[00m\] "
 fi
@@ -10,8 +14,19 @@ export TIMEFORMAT='%2lR real,  %3lU user,  %3lS system'
 
 # -- variables
 export VISUAL=vim
-( command -v dircolors &> /dev/null; ) && export VISUAL=nvim
+( command -v nvim &> /dev/null; ) && export VISUAL=nvim
 export EDITOR=$VISUAL
+export GREP_COLOR='1;34'
+
+export PAGER=less
+export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --RAW-CONTROL-CHARS --HILITE-UNREAD --tabs=5 --no-init --window=-4'
+export LESS_TERMCAP_mb=$'\E[1;31m'     # begin bold
+export LESS_TERMCAP_md=$'\E[1;34m'     # begin blink
+export LESS_TERMCAP_me=$'\E[0m'        # reset bold/blink
+export LESS_TERMCAP_so=$'\E[37;100m' # begin reverse video
+export LESS_TERMCAP_se=$'\E[0m'        # reset reverse video
+export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
+export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 
 # -- Aliases
 alias ln='ln -v'
@@ -34,6 +49,32 @@ alias j='jobs'
 alias df='df -h'
 alias du='du -h'
 alias dc='docker-compose'
+
+# -- homebrew
+for completion_file in /usr/local/etc/bash_completion.d/*; do
+    source "$completion_file"
+done
+
+if [[ -d "/usr/local/opt/coreutils/libexec/gnubin" ]]; then
+    PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+fi
+
+# -- fzf
+if (command -v fd &> /dev/null; ); then
+  export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude .git"
+  export FZF_ALT_C_COMMAND="fd --type d --hidden --follow --exclude .git"
+fi
+
+export FZF_DEFAULT_OPTS="
+--layout=reverse
+--info=inline
+--height=60%
+--multi
+--preview-window=:hidden
+--preview '([[ -f {} ]] && (bat --theme=base16 --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head -200'
+--bind '?:toggle-preview'
+--bind 'ctrl-a:select-all'
+"
 
 [[ -f ~/.fzf.bash ]] && source ~/.fzf.bash
 [[ -f ~/.bashrc.local ]] && source ~/.bashrc.local
