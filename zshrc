@@ -66,6 +66,10 @@ alias df='df -h'
 alias du='du -h'
 alias dc='docker-compose'
 
+if [[ "$OSTYPE" == "linux-gnu"* ]] && (($+commands[fdfind])); then
+  alias -g fd=fdfind
+fi
+
 
 # -- keybindings
 bindkey "^A" beginning-of-line
@@ -117,7 +121,7 @@ pyenv() {
 }
 
 # -- fzf
-if (( $+commands[fd] )); then
+if (( $+commands[fd] || $+commands[fdfind] )); then
   export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude .git"
   export FZF_ALT_C_COMMAND="fd --type d --hidden --follow --exclude .git"
 fi
