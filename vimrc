@@ -197,10 +197,10 @@ endif
 
 """ Status Line
 """" Status Colors
-hi User1 ctermfg=253 ctermbg=24
-hi User2 ctermfg=239 ctermbg=235
-hi User3 ctermfg=245 ctermbg=237
-hi User4 ctermfg=24 ctermbg=237
+hi User1 ctermfg=253 ctermbg=24 guifg=#dadada guibg=#005f87
+hi User2 ctermfg=239 ctermbg=235 guifg=#4e4e4e guibg=#262626
+hi User3 ctermfg=245 ctermbg=237 guifg=#8a8a8a guibg=#3a3a3a
+hi User4 ctermfg=24 ctermbg=237 guifg=#005f87 guibg=#3a3a3a
 
 function! Status(winnum)
   let active = a:winnum == winnr()
