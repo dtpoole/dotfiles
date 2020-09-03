@@ -76,8 +76,13 @@ set noerrorbells
 " Backups
 set nobackup
 set nowritebackup
-silent execute '!mkdir -p ~/.vim/swap'
-set directory=~/.vim/swap//
+
+if has("win32")
+  set directory=$TEMP//
+else
+  silent execute '!mkdir -p ~/.vim/swap'
+  set directory=~/.vim/swap//
+endif
 
 set splitright
 set splitbelow
