@@ -41,15 +41,14 @@ nvim() {
 
     MINPAC=~/.config/nvim/pack/minpac/opt/minpac
     if [ ! -d "$MINPAC" ]; then
-        echo "Getting minpac for neovim..."
+        echo "Getting minpac for vim/neovim..."
         git clone https://github.com/k-takata/minpac.git $MINPAC
+        if [ ! -d ~/.vim/pack/minpac/opt/minpac ]; then
+            mkdir -p ~/.vim/pack/minpac/opt
+            cp -r $MINPAC ~/.vim/pack/minpac/opt/minpac 
+        fi
     fi
 
-    MINPAC=~/.vim/pack/minpac/opt/minpac
-    if [ ! -d "$MINPAC" ]; then
-        echo "Getting minpac for vim..."
-        git clone https://github.com/k-takata/minpac.git $MINPAC
-    fi
     echo
 }
 
