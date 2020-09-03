@@ -77,7 +77,7 @@ set noerrorbells
 set nobackup
 set nowritebackup
 
-if has("win32")
+if has('win32')
   set directory=$TEMP//
 else
   silent execute '!mkdir -p ~/.vim/swap'
