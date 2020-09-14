@@ -187,7 +187,9 @@ set background=dark
 colorscheme hybrid
 "let g:hybrid_custom_term_colors = 1
 set cursorline
-set fillchars=vert:│
+"set fillchars=vert:│
+set fillchars+=vert:│,stl:\ ,stlnc:-
+
 set laststatus=2
 set lazyredraw
 set showmode
@@ -205,20 +207,30 @@ endif
 hi User1 ctermfg=253 ctermbg=24 guifg=#dadada guibg=#005f87
 hi User2 ctermfg=239 ctermbg=235 guifg=#4e4e4e guibg=#262626
 hi User3 ctermfg=245 ctermbg=237 guifg=#8a8a8a guibg=#3a3a3a
-hi User4 ctermfg=24 ctermbg=237 guifg=#005f87 guibg=#3a3a3a
+
+hi StatusLine cterm=NONE ctermfg=237 guibg=#4e4e4e guifg=#262626
+hi StatusLineNC cterm=NONE ctermfg=237 guibg=#4e4e4e guifg=#262626
 
 function! Status(winnum)
-  let active = a:winnum == winnr()
-  if active
-    let stat = '%1*'
-  else
-    let stat = '%2*'
-  endif
-  let stat .= "[%n]\ %<%.99f\ %h%w%m%r%{exists('*FugitiveStatusline')?FugitiveStatusline():''}%y "
-  if active
-    let stat .= '%4*%3*'
+  if a:winnum != winnr()
+    " inactive
+    return '%2*[%n] %<%.99f'
   end
-  let stat .= '%=%-16( %l,%c%V %)%P' " Right
+
+  let stat = '%1*'
+  let stat .= '[%n]'
+  let stat .= '%{(&readonly || !&modifiable) ? "  " : " "}'
+  let stat .= '%<%.99f'
+  let stat .= '%{&modified?"[+] ":""}'
+  let stat .= "%{&filetype!=#''?' ['. &filetype.']':''}"
+
+  if exists('*FugitiveHead') && !empty(FugitiveHead())
+    let stat .= '['. FugitiveHead() .']'
+  end
+
+  let stat .= ' %3*'
+  let stat .= '%='  " Right
+  let stat .= '%-15(%l,%c%V %) %P'
   return stat
 endfunction
 
