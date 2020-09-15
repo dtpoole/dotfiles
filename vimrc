@@ -204,17 +204,17 @@ endif
 
 """ Status Line
 """" Status Colors
-hi User1 ctermfg=253 ctermbg=24 guifg=#dadada guibg=#005f87
-hi User2 ctermfg=239 ctermbg=235 guifg=#4e4e4e guibg=#262626
-hi User3 ctermfg=245 ctermbg=237 guifg=#8a8a8a guibg=#3a3a3a
+hi StatusLine ctermfg=245 ctermbg=237 guifg=#3a3a3a guibg=#8a8a8a
+hi StatusLineNC ctermfg=239 ctermbg=234 guifg=#1c1c1c guibg=#4e4e4e
 
-hi StatusLine cterm=NONE ctermfg=237 guibg=#4e4e4e guifg=#262626
-hi StatusLineNC cterm=NONE ctermfg=237 guibg=#4e4e4e guifg=#262626
+" grey
+hi User1 ctermfg=249 ctermbg=239 guifg=#b2b2b2 guibg=#4e4e4e
+" blue
+"hi User1 ctermfg=253 ctermbg=24 guifg=#dadada guibg=#005f87
 
 function! Status(winnum)
   if a:winnum != winnr()
-    " inactive
-    return '%2*[%n] %<%.99f'
+    return '[%n] %<%.99f'
   end
 
   let stat = '%1*'
@@ -228,7 +228,7 @@ function! Status(winnum)
     let stat .= '['. FugitiveHead() .']'
   end
 
-  let stat .= ' %3*'
+  let stat .= ' %#StatusLine#'
   let stat .= '%='  " Right
   let stat .= '%-15(%l,%c%V %) %P'
   return stat
@@ -245,7 +245,7 @@ augroup status
   autocmd VimEnter,WinEnter,BufWinEnter * call <SID>RefreshStatus()
 augroup END
 
-"let g:hybrid_custom_term_colors=1
+let g:hybrid_custom_term_colors=1
 
 
 " minpac
