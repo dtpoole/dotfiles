@@ -105,7 +105,7 @@ augroup me
   autocmd BufRead,BufNewFile {Vagrantfile} set ft=ruby
   autocmd BufRead,BufNewFile *.avsc set ft=json
 
-  autocmd BufWritePost init.vim,.vimrc,_vimrc,vimrc source $MYVIMRC
+  autocmd BufWritePost $MYVIMRC source % | echom "Reloaded " . $MYVIMRC | redraw
 
   autocmd BufWritePre /tmp/* setlocal noundofile
 augroup end
@@ -187,7 +187,6 @@ set background=dark
 colorscheme hybrid
 "let g:hybrid_custom_term_colors = 1
 set cursorline
-"set fillchars=vert:│
 set fillchars+=vert:│,stl:\ ,stlnc:-
 
 set laststatus=2
@@ -203,15 +202,6 @@ endif
 
 
 """ Status Line
-"""" Status Colors
-hi StatusLine ctermfg=245 ctermbg=237 guifg=#3a3a3a guibg=#8a8a8a
-hi StatusLineNC ctermfg=239 ctermbg=234 guifg=#1c1c1c guibg=#4e4e4e
-
-" grey
-hi User1 ctermfg=249 ctermbg=239 guifg=#b2b2b2 guibg=#4e4e4e
-" blue
-"hi User1 ctermfg=253 ctermbg=24 guifg=#dadada guibg=#005f87
-
 function! Status(winnum)
   if a:winnum != winnr()
     return '[%n] %<%.99f'
@@ -245,17 +235,14 @@ augroup status
   autocmd VimEnter,WinEnter,BufWinEnter * call <SID>RefreshStatus()
 augroup END
 
-let g:hybrid_custom_term_colors=1
-
-
-" minpac
+""" minpac
 function! PackInit() abort
   packadd minpac
-  call minpac#init()
+  call minpac#init({'progress_open': 'vertical'})
   call minpac#add('k-takata/minpac', {'type': 'opt'})
   call minpac#add('tpope/vim-fugitive')
   call minpac#add('tpope/vim-vinegar')
-  call minpac#add('scrooloose/nerdcommenter')
+  call minpac#add('tomtom/tcomment_vim')
   call minpac#add('mhinz/vim-grepper')
   call minpac#add('pangloss/vim-javascript')
   call minpac#add('python-mode/python-mode')
