@@ -5,7 +5,7 @@ FROM alpine:3.12
 RUN addgroup -g 10001 -S nonroot && adduser -u 10000 -S -s /bin/zsh -G nonroot -h /home/nonroot nonroot
 
 # tools
-RUN apk add --no-cache bind-tools git bash zsh zsh-vcs tmux openssh tree vim wget curl fd ripgrep perl sqlite
+RUN apk add --no-cache bind-tools git bash zsh zsh-vcs tmux neovim openssh tree vim wget curl fd ripgrep perl sqlite
 
 # build python
 RUN apk add --no-cache build-base libffi-dev openssl-dev bzip2-dev zlib-dev readline-dev sqlite-dev
