@@ -51,9 +51,11 @@ alias du='du -h'
 alias dc='docker-compose'
 
 # -- homebrew
-for completion_file in /usr/local/etc/bash_completion.d/*; do
-    source "$completion_file"
-done
+if [[ -d "/usr/local/etc/bash_completion.d" ]]; then
+    for completion_file in /usr/local/etc/bash_completion.d/*; do
+        source "$completion_file"
+    done
+fi
 
 if [[ -d "/usr/local/opt/coreutils/libexec/gnubin" ]]; then
     PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
@@ -83,3 +85,4 @@ export FZF_DEFAULT_OPTS="
 if command -v dircolors &> /dev/null; then
     eval "$(dircolors ~/.dir_colors)"
 fi
+
