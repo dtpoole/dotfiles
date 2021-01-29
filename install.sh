@@ -8,23 +8,35 @@ cd "$DIR" || exit
 
 
 symlinks() {
-    echo ---- Creating symlinks...
+    echo ---- Creating symlinks ----
+
+    declare -a EXCLUDES=( "$SCRIPT" README.md Dockerfile run_docker.sh )
 
     for f in "$DIR"/*
     do
         FILE=${f##*/}
 
-        if [ "$FILE" = "$SCRIPT" ] || [ "$FILE" = "README.md" ] || [ "$FILE" = "Dockerfile" ] || [ "$FILE" = "run_docker.sh" ]; then
+        EXCLUDE=false
+        for X in "${EXCLUDES[@]}"; do
+            if [ "$FILE" = "$X" ]; then
+                EXCLUDE=true
+                continue
+            fi
+        done
+
+        if [ "$EXCLUDE" = true ]; then
             continue
         fi
 
-        echo "-- $FILE"
-
         DEST="$HOME/.$FILE"
 
-        if [ -e "$DEST" ] || [ -L "$DEST" ]; then
-            echo "$DEST exists."
-        else
+        echo "-- $FILE"
+        if [ -f "$DEST" ] && [ ! -L "$DEST" ]; then
+            mv "$DEST" "$DEST.$(date +%s)"
+        fi
+
+        if [ ! -L "$DEST" ]; then
+            echo "$DEST -- Linking"
             ln -s "$DIR/$FILE" "$DEST"
         fi
     done
@@ -32,8 +44,8 @@ symlinks() {
 }
 
 nvim() {
-    echo ---- vim/nvim
-    mkdir -p ~/.config/nvim
+    echo ---- vim/nvim ----
+    mkdir -p ~/.config/nvim ~/.vim
     NVIMCONF="$HOME/.config/nvim/init.vim"
     if [ ! -e "$NVIMCONF" ]; then
         ln -s "$DIR/vimrc" "$NVIMCONF"
@@ -43,30 +55,14 @@ nvim() {
     if [ ! -d "$MINPAC" ]; then
         echo "Getting minpac for vim/neovim..."
         git clone https://github.com/k-takata/minpac.git $MINPAC
-        if [ ! -d ~/.vim/pack/minpac/opt/minpac ]; then
-            mkdir -p ~/.vim/pack/minpac/opt
-            cp -r $MINPAC ~/.vim/pack/minpac/opt/minpac 
-        fi
+        ln -s "$HOME/.config/nvim/pack" ~/.vim/pack
     fi
 
-    echo
-}
-
-base16() {
-    echo ---- base16-shell
-    B16="$HOME/.config/base16-shell"
-    if [ ! -d "$B16" ]; then
-        echo "Getting base16-shell..."
-        git clone https://github.com/chriskempson/base16-shell.git "$B16"
-    else
-        echo "Updating base16-shell..."
-        cd "$B16" && git pull --rebase
-    fi
     echo
 }
 
 fzf() {
-    echo ---- fzf
+    echo ---- fzf ----
     FZ="$HOME/.fzf/"
     if [ ! -d "$FZ" ]; then
         echo "Getting fzf..."
@@ -80,7 +76,7 @@ fzf() {
 }
 
 pyenv() {
-    echo ---- pyenv
+    echo ---- pyenv ----
     PYEN="$HOME/.pyenv"
     if [ ! -d "$PYEN" ]; then
         echo "Getting pyenv..."
@@ -96,8 +92,16 @@ pyenv() {
     echo
 }
 
+rust() {
+    echo ---- rust ----
+    curl https://sh.rustup.rs -sSf | sh -s -- --no-modify-path -y
+    source "$HOME/.cargo/env"
+    "$HOME/.cargo/bin/cargo" install fd-find hyperfine ripgrep bat
+}
+
+
 keychain() {
-    echo "---- keychain"
+    echo ---- keychain ----
     mkdir -p "$HOME/bin"
     curl -so ~/bin/keychain https://raw.githubusercontent.com/funtoo/keychain/master/keychain
     chmod 755 ~/bin/keychain
@@ -115,9 +119,9 @@ fi
 
 symlinks
 nvim
-#base16
 fzf
 pyenv
+#rust
 
 if [[ $YES -eq 0 ]]; then
     read -rp "Install/Update keychain (y/n)? " REPLY
@@ -126,3 +130,5 @@ fi
 if [[ $REPLY =~ ^[Yy]$ ]] || [ $YES -eq 1 ]; then
     keychain
 fi
+
+echo DONE
