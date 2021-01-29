@@ -54,6 +54,7 @@ alias la='ls -lAh'
 alias ll='ls -alh'
 alias lh='ls -Alh'
 alias lt='ls -lt'
+alias llr='ll -t | head -10'
 alias e=$EDITOR
 alias v=$VISUAL
 alias vi=$VISUAL
@@ -65,6 +66,10 @@ alias j='jobs'
 alias df='df -h'
 alias du='du -h'
 alias dc='docker-compose'
+alias dtail="docker logs -tf --tail='30'"
+alias ctop="docker run --rm -it \
+    --volume /var/run/docker.sock:/var/run/docker.sock:ro \
+    quay.io/vektorlab/ctop:latest"
 
 if [[ "$OSTYPE" == "linux-gnu"* ]] && (($+commands[fdfind])); then
   alias -g fd=fdfind
@@ -78,7 +83,6 @@ bindkey "^P" history-search-backward
 bindkey "^Y" accept-and-hold
 bindkey "^N" insert-last-word
 
-
 # -- prompt
 setopt promptsubst
 
@@ -90,34 +94,21 @@ precmd() {
   vcs_info
 }
 
-if [ -n "${SSH_CLIENT}" ] && [ -z "${TMUX}" ]; then
+if ([ -n "${SSH_CLIENT}" ] || [ -n "${CONTAINER}" ] ) && [ -z "${TMUX}" ]; then
   host="%n@%m "
 fi
 
 PROMPT='%F{green}$host%F{blue}%3~%b${vcs_info_msg_0_}%B%F{white} %#%b%F{white} '
 
-
-# -- mac homebrew coreutils
-if [[ -d "/usr/local/opt/coreutils/libexec/gnubin" ]]; then
-  PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-fi
-
-# -- golang
-if [[ -d "$HOME/.go" ]]; then
-  export GOPATH=$HOME/.go
-  PATH="$HOME/.go/bin:$PATH"
-fi
+# mac homebrew gnu tools
+PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 
 # -- python
 pyenv() {
-  if [[ -d "$HOME/.pyenv" ]]; then
-    echo Loading pyenv...
-    unset pyenv
     PATH="$HOME/.pyenv/bin:$PATH"
     eval "$(command pyenv init -)"
     eval "$(command pyenv virtualenv-init -)"
     pyenv "$@"
-  fi
 }
 
 # -- fzf

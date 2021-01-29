@@ -38,6 +38,7 @@ alias la='ls -lAh'
 alias ll='ls -alh'
 alias lh='ls -Alh'
 alias lt='ls -lt'
+alias llr='ll -t | head -10'
 alias e=\$EDITOR
 alias v=\$VISUAL
 alias vi=\$VISUAL
@@ -49,6 +50,10 @@ alias j='jobs'
 alias df='df -h'
 alias du='du -h'
 alias dc='docker-compose'
+alias dtail="docker logs -tf --tail='30'"
+alias ctop="docker run --rm -it --name=ctop \
+    --volume /var/run/docker.sock:/var/run/docker.sock:ro \
+    quay.io/vektorlab/ctop:latest"
 
 # -- homebrew
 if [[ -d "/usr/local/etc/bash_completion.d" ]]; then
@@ -57,9 +62,8 @@ if [[ -d "/usr/local/etc/bash_completion.d" ]]; then
     done
 fi
 
-if [[ -d "/usr/local/opt/coreutils/libexec/gnubin" ]]; then
-    PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-fi
+# mac homebrew gnu tools
+PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 
 # -- fzf
 if (command -v fd &> /dev/null; ); then
