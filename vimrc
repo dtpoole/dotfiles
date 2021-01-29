@@ -104,9 +104,7 @@ augroup me
   autocmd FileType xhtml,html,css,scss,ruby,yaml,coffee,vim,vimrc setlocal ts=2 sts=2 sw=2 expandtab
   autocmd BufRead,BufNewFile {Vagrantfile} set ft=ruby
   autocmd BufRead,BufNewFile *.avsc set ft=json
-
-  autocmd BufWritePost $MYVIMRC source % | echom "Reloaded " . $MYVIMRC | redraw
-
+  autocmd BufWritePost $MYVIMRC source % | redraw
   autocmd BufWritePre /tmp/* setlocal noundofile
 augroup end
 
@@ -184,7 +182,6 @@ nmap _= :FormatFile<CR>
 
 """ Colors / Display
 set background=dark
-colorscheme hybrid
 "let g:hybrid_custom_term_colors = 1
 set cursorline
 set fillchars+=vert:│,stl:\ ,stlnc:-
@@ -256,8 +253,20 @@ function! PackInit() abort
   call minpac#add('stephpy/vim-yaml')
   call minpac#add('plasticboy/vim-markdown')
   call minpac#add('ekalinin/Dockerfile.vim')
+  call minpac#add('rust-lang/rust.vim')
 endfunction
 
-command! PackUpdate call PackInit() | call minpac#update('', {'do': 'call minpac#status()'})
+function! PackUpdate() abort
+  call PackInit() | call minpac#update('', {'do': 'so $MYVIMRC'})
+endfunction
+
+command! PackUpdate call PackUpdate()
 command! PackClean  call PackInit() | call minpac#clean()
 command! PackStatus call PackInit() | call minpac#status()
+
+" load packages automatically if colorscheme not found
+try
+  colorscheme hybrid
+catch
+  call PackUpdate()
+endtry
