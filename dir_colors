@@ -259,26 +259,26 @@ STICKY                  37;44   # dir with the sticky bit set (+t) and not other
 .xml    00;35
 
 ## Files of special interest (base1 + bold)
-.tex                01;37
-.rdf                01;37
-.owl                01;37
-.n3                 01;37
-.ttl                01;37
-.nt                 01;37
-.torrent            01;37
-.xml                01;37
-*Makefile           01;37
-*makefile           01;37
-*Rakefile           01;37
-*build.xml          01;37
-*rc                 01;37
-.nfo                01;37
-*README             01;37
-*README.txt         01;37
-*README.markdown    01;37
-*README.md          01;37
-.cc                 01;37
-*Dockerfile         01;37
+.tex                01;38
+.rdf                01;38
+.owl                01;38
+.n3                 01;38
+.ttl                01;38
+.nt                 01;38
+.torrent            01;38
+.xml                01;38
+*Makefile           01;38
+*makefile           01;38
+*Rakefile           01;38
+*build.xml          01;38
+*rc                 01;38
+.nfo                01;38
+*README             01;38
+*README.txt         01;38
+*README.markdown    01;38
+*README.md          01;38
+.cc                 01;38
+*Dockerfile         01;38
 
 ## Machine generated files / non-important (bright black)
 .log        01;30
