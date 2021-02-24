@@ -111,6 +111,14 @@ pyenv() {
     pyenv "$@"
 }
 
+# -- ssh/keychain (call keychain on first ssh call)
+ssh() {
+  unfunction "$0"
+  (( $+commands[keychain] )) && eval "$(keychain -q --eval --quick --ignore-missing --agents ssh --inherit any id_rsa id_ed25519)"
+  $0 "$@"
+}
+
+
 # -- fzf
 if (( $+commands[fd] || $+commands[fdfind] )); then
   export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude .git"
@@ -141,7 +149,5 @@ fi
 typeset -U PATH path
 export PATH=$PATH
 
-# -- keychain
-(( $+commands[keychain] )) && eval "$(keychain -q --eval --quick --ignore-missing --agents ssh --inherit any id_rsa id_ed25519)"
 
 # vim:set ft=zsh et sw=2:
