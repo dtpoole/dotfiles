@@ -1,18 +1,23 @@
 #zmodload zsh/zprof
 
 # -- history
-setopt share_history append_history hist_ignore_all_dups inc_append_history
+HISTFILE=$HOME/.zsh_history
+HISTSIZE=100000
+SAVEHIST=100000
+
+setopt extended_history
+setopt hist_expire_dups_first
+setopt hist_ignore_dups
+setopt hist_ignore_space
 setopt hist_verify
-HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
+setopt share_history
 
 # -- completion
+fpath=(.zfunc $fpath)
 setopt extendedglob
 autoload -Uz compinit
 if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
-  compinit -u -D
-  touch ~/.zcompdump
+  compinit -u
 else
   compinit -C
 fi
@@ -60,7 +65,7 @@ alias v=$VISUAL
 alias vi=$VISUAL
 alias grep='grep --color=auto'
 alias cls='clear'
-alias h='history'
+alias h='history -E'
 alias more='less'
 alias j='jobs'
 alias df='df -h'
