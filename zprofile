@@ -1,6 +1,6 @@
 if [[ -z "$LANG" ]]; then
-    export LANG=en_US.UTF-8
-    export LANGUAGE=en_US.UTF-8
+  export LANG=en_US.UTF-8
+  export LANGUAGE=en_US.UTF-8
 fi
 
 export LC_COLLATE=en_US.UTF-8

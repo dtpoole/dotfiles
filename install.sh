@@ -83,52 +83,62 @@ pyenv() {
         git clone https://github.com/pyenv/pyenv.git "$PYEN"
         echo "Getting pyenv-virtualenv..."
         git clone https://github.com/pyenv/pyenv-virtualenv.git "${PYEN}/plugins/pyenv-virtualenv"
+        echo "Getting pyenv-doctor..."
+        git clone https://github.com/pyenv/pyenv-doctor.git "${PYEN}/plugins/pyenv-doctor"
+        echo "Getting pyenv-update..."
+        git clone https://github.com/pyenv/pyenv-update.git "${PYEN}/plugins/pyenv-update"
     else
         echo "Updating pyenv..."
-        cd "$PYEN" && git pull --rebase
-        echo "Updating pyenv-virtualenv..."
-        cd "${PYEN}/plugins/pyenv-virtualenv" && git pull --rebase
+        export PYENV_ROOT="$HOME/.pyenv"
+        PATH="$PYENV_ROOT/bin:$PATH"
+        eval "$(command pyenv init -)"
+        pyenv update
     fi
     echo
 }
+
+nvm() {
+    echo ---- nvm ----
+    NVMEN="$HOME/.nvm"
+    if [ ! -d "$NVMEN" ]; then
+        echo "Getting nvm..."
+        git clone https://github.com/nvm-sh/nvm.git "$NVMEN"
+        cd "$NVMEN"
+    else
+        echo "Updating nvm..."
+        cd "$NVMEN"
+        git fetch --tags origin
+    fi
+    git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)`
+    echo
+}
+
 
 rust() {
     echo ---- rust ----
     curl https://sh.rustup.rs -sSf | sh -s -- --no-modify-path -y
     source "$HOME/.cargo/env"
-    "$HOME/.cargo/bin/cargo" install fd-find hyperfine ripgrep bat
+    "$HOME/.cargo/bin/rustup" completions zsh cargo > ~/.zfunc/_cargo
+    # "$HOME/.cargo/bin/cargo" install fd-find hyperfine ripgrep bat
+    echo
 }
 
 
 keychain() {
     echo ---- keychain ----
-    mkdir -p "$HOME/bin"
-    curl -so ~/bin/keychain https://raw.githubusercontent.com/funtoo/keychain/master/keychain
-    chmod 755 ~/bin/keychain
+    mkdir -p "$HOME/.local/bin"
+    curl -so "$HOME/.local/bin/keychain" https://raw.githubusercontent.com/funtoo/keychain/master/keychain
+    chmod 755 "$HOME/.local/bin/keychain"
+    echo
 }
 
-
-YES=0
-REPLY=0
-
-if [ $# -eq 1 ]; then
-    if [ "$1" == "-y" ]; then
-        YES=1
-    fi
-fi
 
 symlinks
 nvim
 fzf
 pyenv
-#rust
-
-if [[ $YES -eq 0 ]]; then
-    read -rp "Install/Update keychain (y/n)? " REPLY
-fi
-
-if [[ $REPLY =~ ^[Yy]$ ]] || [ $YES -eq 1 ]; then
-    keychain
-fi
+#nvm
+rust
+keychain
 
 echo DONE

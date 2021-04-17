@@ -1,9 +1,11 @@
 setopt noglobalrcs
 
 export REPORTTIME=30 # Show elapsed time if command took more than X seconds
-export TIMEFMT=$'%E real,  %U user,  %S system'
+export TIMEFMT='"%J"  %U user  %S system  %P cpu   %*E total'
 
-PATH="$HOME/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
+export CFLAGS="-O2"
+
+PATH="$HOME/.local/bin:$HOME/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
 
 # rust
 PATH="$HOME/.cargo/bin:$PATH"

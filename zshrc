@@ -12,8 +12,12 @@ setopt hist_ignore_space
 setopt hist_verify
 setopt share_history
 
-# -- completion
+# -- functions
 fpath=(.zfunc $fpath)
+autoload -Uz pyenv
+autoload -Uz ssh
+
+# -- completion
 setopt extendedglob
 autoload -Uz compinit
 if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
@@ -72,9 +76,6 @@ alias df='df -h'
 alias du='du -h'
 alias dc='docker-compose'
 alias dtail="docker logs -tf --tail='30'"
-alias ctop="docker run --rm -it \
-    --volume /var/run/docker.sock:/var/run/docker.sock:ro \
-    quay.io/vektorlab/ctop:latest"
 
 if [[ "$OSTYPE" == "linux-gnu"* ]] && (($+commands[fdfind])); then
   alias -g fd=fdfind
@@ -99,30 +100,16 @@ precmd() {
   vcs_info
 }
 
-if ([ -n "${SSH_CLIENT}" ] || [ -n "${CONTAINER}" ] ) && [ -z "${TMUX}" ]; then
+if ([ -n "${SSH_CLIENT}" ] || [ -f /.dockerenv ] ) && [ -z "${TMUX}" ]; then
   host="%n@%m "
 fi
 
 PROMPT='%F{green}$host%F{blue}%3~%b${vcs_info_msg_0_}%B%F{white} %#%b%F{white} '
 
-# mac homebrew gnu tools
-PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-
-# -- python
-pyenv() {
-    PATH="$HOME/.pyenv/bin:$PATH"
-    eval "$(command pyenv init -)"
-    eval "$(command pyenv virtualenv-init -)"
-    pyenv "$@"
-}
-
-# -- ssh/keychain (call keychain on first ssh call)
-ssh() {
-  unfunction "$0"
-  (( $+commands[keychain] )) && eval "$(keychain -q --eval --quick --ignore-missing --agents ssh --inherit any id_rsa id_ed25519)"
-  $0 "$@"
-}
-
+# -- homebrew gnu tools
+if (( $+commands[brew] )); then
+  PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+fi
 
 # -- fzf
 if (( $+commands[fd] || $+commands[fdfind] )); then
@@ -143,6 +130,7 @@ export FZF_DEFAULT_OPTS="
 bindkey -s '^e' 'vi $(fzf)\n'
 
 [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
+
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 [[ -f ~/.base16_theme ]] && source ~/.base16_theme
 
@@ -153,6 +141,5 @@ fi
 # remove dups from PATH
 typeset -U PATH path
 export PATH=$PATH
-
 
 # vim:set ft=zsh et sw=2:

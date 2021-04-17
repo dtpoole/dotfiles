@@ -1,0 +1,8 @@
+# -- ssh/keychain (call keychain on first ssh call)
+ssh() {
+  unfunction "$0"
+  (( $+commands[keychain] )) && eval "$(keychain -q --eval --quick --ignore-missing --agents ssh --inherit any id_rsa id_ed25519)"
+  $0 "$@"
+}
+
+# vim:set ft=zsh et sw=2:

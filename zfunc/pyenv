@@ -1,0 +1,13 @@
+# -- pyenv/python
+_init() {
+  eval "$(command pyenv init -)"
+  eval "$(command pyenv virtualenv-init -)"
+  pyenv "$@"
+}
+
+PYENV_ROOT="$HOME/.pyenv"
+PATH="$PYENV_ROOT/bin:$PATH"
+
+_init 
+
+# vim:set ft=zsh et sw=2:
