@@ -1,4 +1,5 @@
 setopt noglobalrcs
+skip_global_compinit=1
 
 export REPORTTIME=30 # Show elapsed time if command took more than X seconds
 export TIMEFMT='"%J"  %U user  %S system  %P cpu   %*E total'
