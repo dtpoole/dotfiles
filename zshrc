@@ -13,7 +13,7 @@ setopt hist_verify
 setopt share_history
 
 # -- functions
-fpath=(.zfunc $fpath)
+fpath=(~/.zfunc $fpath)
 autoload -Uz pyenv
 autoload -Uz ssh
 
@@ -22,6 +22,7 @@ setopt extendedglob
 autoload -Uz compinit
 if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
   compinit -u
+  touch ~/.zcompdump
 else
   compinit -C
 fi
