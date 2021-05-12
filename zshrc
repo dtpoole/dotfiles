@@ -15,6 +15,7 @@ setopt share_history
 # -- functions
 fpath=(~/.zfunc $fpath)
 autoload -Uz pyenv
+autoload -Uz nvm
 autoload -Uz ssh
 
 # -- completion

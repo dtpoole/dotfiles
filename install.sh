@@ -137,7 +137,7 @@ symlinks
 nvim
 fzf
 pyenv
-#nvm
+nvm
 rust
 keychain
 

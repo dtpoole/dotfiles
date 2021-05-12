@@ -1,0 +1,10 @@
+# -- nvm
+_init() {
+  source "$NVM_DIR/nvm.sh"
+  nvm "$@"
+}
+NVM_DIR="$HOME/.nvm"
+
+_init "$@"
+
+# vim:set ft=zsh et sw=2:
