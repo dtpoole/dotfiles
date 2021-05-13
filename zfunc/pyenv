@@ -1,5 +1,6 @@
 # -- pyenv/python
 _init() {
+  eval "$(command pyenv init --path)"
   eval "$(command pyenv init -)"
   eval "$(command pyenv virtualenv-init -)"
   pyenv "$@"
