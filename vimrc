@@ -233,6 +233,11 @@ augroup status
 augroup END
 
 """ minpac
+if empty(glob("~/.config/nvim/pack/minpac/opt/minpac"))
+  silent! execute '!git clone https://github.com/k-takata/minpac.git ~/.config/nvim/pack/minpac/opt/minpac'
+  autocmd VimEnter * silent! PackUpdate
+endif
+
 function! PackInit() abort
   packadd minpac
   call minpac#init({'progress_open': 'vertical'})
@@ -264,9 +269,7 @@ command! PackUpdate call PackUpdate()
 command! PackClean  call PackInit() | call minpac#clean()
 command! PackStatus call PackInit() | call minpac#status()
 
-" load packages automatically if colorscheme not found
 try
   colorscheme hybrid
 catch
-  call PackUpdate()
 endtry

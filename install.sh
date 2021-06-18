@@ -45,17 +45,11 @@ symlinks() {
 
 nvim() {
     echo ---- vim/nvim ----
-    mkdir -p ~/.config/nvim ~/.vim
+    mkdir -p "$HOME/.config/nvim/pack" "$HOME/.vim"
     NVIMCONF="$HOME/.config/nvim/init.vim"
     if [ ! -e "$NVIMCONF" ]; then
         ln -s "$DIR/vimrc" "$NVIMCONF"
-    fi
-
-    MINPAC=~/.config/nvim/pack/minpac/opt/minpac
-    if [ ! -d "$MINPAC" ]; then
-        echo "Getting minpac for vim/neovim..."
-        git clone https://github.com/k-takata/minpac.git $MINPAC
-        ln -s "$HOME/.config/nvim/pack" ~/.vim/pack
+        ln -s "$HOME/.config/nvim/pack" "$HOME/.vim/pack"
     fi
 
     echo
