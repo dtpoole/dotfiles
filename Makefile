@@ -6,36 +6,29 @@ PYENV := $(HOME)/.pyenv
 PYENV_PLUGINS := pyenv-virtualenv pyenv-doctor pyenv-update
 
 VIM_NVIMCONF := $(HOME)/.config/nvim
-VIM_MINPAC := $(HOME)/.config/nvim/pack/minpac/opt/minpac
 
 KEYCHAIN := $(HOME)/.local/bin/keychain
 
-
-.PHONY: all clean test env dotfiles vim fzf pyenv pyenv-base pyenv-plugins pyenv-updater rust keychain
-
+.PHONY: all clean test env dotfiles fzf pyenv pyenv-base pyenv-plugins pyenv-updater rust keychain
 
 
-all: env dotfiles fzf vim
+all: env dotfiles fzf
 
 
 env:
+	@echo ---- env ----
 	mkdir -p $(HOME)/.local/bin
 	touch $(HOME)/.hushlogin
-
+	mkdir -p $(VIM_NVIMCONF) $(HOME)/.local/share/nvim $(HOME)/.vim/plugged
+	@ln -vsf $(HOME)/.vimrc $(VIM_NVIMCONF)/init.vim
+	@ln -vsf $(HOME)/.vim/plugged $(HOME)/.local/share/nvim/plugged 
+	
 
 dotfiles: | $(DOTFILES)
 
 $(DOTFILES):
 	@if [ -h "$(HOME)/.$(notdir $@)" ]; then rm "$(HOME)/.$(notdir $@)"; fi
 	@ln -vbsf "$(PWD)/home/$(notdir $@)" "$(HOME)/.$(notdir $@)"
-
-
-vim:
-	@echo ---- vim ----
-	mkdir -p $(VIM_NVIMCONF) $(HOME)/.vim
-	@ln -vsf $(HOME)/.vimrc $(VIM_NVIMCONF)/init.vim
-	test -d $(VIM_MINPAC) || git clone https://github.com/k-takata/minpac.git "$(VIM_MINPAC)"
-	@ln -vsf "$(VIM_NVIMCONF)/pack" "$(HOME)/.vim/pack"
 
 
 fzf:
