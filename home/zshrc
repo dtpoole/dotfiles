@@ -62,8 +62,7 @@ alias ...='../..'
 alias ls='ls --color=tty'
 alias l='ls'
 alias la='ls -lAh'
-alias ll='ls -alh'
-alias lh='ls -Alh'
+alias ll='ls -lh'
 alias lt='ls -lt'
 alias llr='ll -t | head -10'
 alias e=$EDITOR
@@ -110,7 +109,7 @@ PROMPT='%F{green}$host%F{blue}%3~%b${vcs_info_msg_0_}%B%F{white} %#%b%F{white} '
 
 # -- homebrew gnu tools
 if (( $+commands[brew] )); then
-  PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+  PATH="$BREWDIR/opt/coreutils/libexec/gnubin:$PATH"
 fi
 
 # -- fzf
