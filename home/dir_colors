@@ -282,34 +282,34 @@ STICKY                  37;44   # dir with the sticky bit set (+t) and not other
 *Dockerfile         01;38
 
 ## Machine generated files / non-important (bright black)
-.log        01;30
-.bak        01;30
-.aux        01;30
-.lof        01;30
-.lol        01;30
-.lot        01;30
-.out        01;30
-.toc        01;30
-.bbl        01;30
-.blg        01;30
-*~          01;30
-*#          01;30
-.part       01;30
-.incomplete 01;30
-.swp        01;30
-.tmp        01;30
-.temp       01;30
-.o          01;30
-.obj        01;30
-.pyc        01;30
-.pyo        01;30
-.class      01;30
-.cache      01;30
-.egg-info   01;30
-.DS_Store       01;30
-.dockerignore   01;30
-.gitignore      01;30
+.log        38;5;242
+.bak        38;5;242
+.aux        38;5;242
+.lof        38;5;242
+.lol        38;5;242
+.lot        38;5;242
+.out        38;5;242
+.toc        38;5;242
+.bbl        38;5;242
+.blg        38;5;242
+*~          38;5;242
+*#          38;5;242
+.part       38;5;242
+.incomplete 38;5;242
+.swp        38;5;242
+.tmp        38;5;242
+.temp       38;5;242
+.o          38;5;242
+.obj        38;5;242
+.pyc        38;5;242
+.pyo        38;5;242
+.class      38;5;242
+.cache      38;5;242
+.egg-info   38;5;242
+.DS_Store       38;5;242
+.dockerignore   38;5;242
+.gitignore     38;5;242
 
 
 RESET                   00;37   # reset to "normal" color
-*.      01;30
+*.      38;5;242
