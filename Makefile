@@ -28,7 +28,7 @@ dotfiles: | $(DOTFILES)
 
 $(DOTFILES):
 	@if [ -h "$(HOME)/.$(notdir $@)" ]; then rm "$(HOME)/.$(notdir $@)"; fi
-	@ln -vbsf "$(PWD)/home/$(notdir $@)" "$(HOME)/.$(notdir $@)"
+	@ln -vsf "$(PWD)/home/$(notdir $@)" "$(HOME)/.$(notdir $@)"
 
 
 fzf:
