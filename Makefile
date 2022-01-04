@@ -58,7 +58,7 @@ rust:
 	@echo ---- rust ----
 	curl https://sh.rustup.rs -sSf | sh -s -- --no-modify-path -y
 	$(HOME)/.cargo/bin/rustup completions zsh cargo > $(HOME)/.zfunc/_cargo
-	$(HOME)/.cargo/bin/cargo install fd-find hyperfine ripgrep bat
+#	$(HOME)/.cargo/bin/cargo install fd-find hyperfine ripgrep bat
 
 
 keychain:
