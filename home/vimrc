@@ -4,20 +4,19 @@ scriptencoding utf-8
 """ vim-plug
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
-  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC | redraw
+    silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC | redraw
 endif
 
 call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
-Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
 Plug 'tomtom/tcomment_vim'
 Plug 'junegunn/fzf.vim'
 Plug 'mhinz/vim-grepper'
 Plug 'dense-analysis/ale'
-Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'sheerun/vim-polyglot'
+Plug 'arcticicestudio/nord-vim'
 call plug#end()
-
 
 let mapleader=','
 imap jj <Esc>
@@ -137,11 +136,16 @@ set cursorline
 set fillchars+=vert:│,stl:\ ,stlnc:-
 set fillchars=
 set termguicolors
-set lazyredraw
+set ttyfast                " Faster redrawing.
+set lazyredraw             " Only redraw when necessary.
 set showmode
 
-let g:dracula_colorterm = 0
-colorscheme dracula
+let g:nord_italic = 1
+let g:nord_italic_comments = 1
+let g:nord_underline = 1
+colorscheme nord
+
+set laststatus=1
 
 """ Custom Functions
 function! Preserve(command)
@@ -227,13 +231,12 @@ function! Status(winnum)
 endfunction
 
 function! s:RefreshStatus()
-    for nr in range(1, winnr('$'))
-        call setwinvar(nr, '&statusline', '%!Status(' . nr . ')')
-    endfor
+        for nr in range(1, winnr('$'))
+            call setwinvar(nr, '&statusline', '%!Status(' . nr . ')')
+        endfor
 endfunction
 
 augroup status
     autocmd!
     autocmd VimEnter,WinEnter,BufWinEnter * call <SID>RefreshStatus()
 augroup END
-
