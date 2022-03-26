@@ -135,7 +135,8 @@ bindkey -s '^e' 'vi $(fzf)\n'
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 
 if [[ -z "$LS_COLORS" ]]; then
-  (( $+commands[dircolors] )) && eval "$(dircolors -b ~/.dir_colors)"
+  #(( $+commands[dircolors] )) && eval "$(dircolors -b ~/.dir_colors)"
+  (( $+commands[vivid] )) && export LS_COLORS="$(vivid generate ~/.config/vivid/themes/nord.yml)"
 fi
 
 # remove dups from PATH
