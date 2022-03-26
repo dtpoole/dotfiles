@@ -7,8 +7,6 @@ VIM_NVIMCONF := $(HOME)/.config/nvim
 
 KEYCHAIN := $(HOME)/.local/bin/keychain
 
-#.PHONY: all clean test env dotfiles fzf pyenv pyenv-base pyenv-plugins pyenv-updater rust keychain
-
 
 all: init fzf
 
@@ -17,22 +15,8 @@ init:
 	@echo ---- env ----
 	mkdir -p $(HOME)/.local/bin
 	touch $(HOME)/.hushlogin
-<<<<<<< HEAD
-	mkdir -p $(VIM_NVIMCONF) $(HOME)/.local/share/nvim $(HOME)/.vim/plugged
-	@ln -vsf $(HOME)/.vimrc $(VIM_NVIMCONF)/init.vim
-	@ln -vsf $(HOME)/.vim/plugged $(HOME)/.local/share/nvim/plugged 
-	
-
-dotfiles: | $(DOTFILES)
-
-$(DOTFILES):
-	@if [ -h "$(HOME)/.$(notdir $@)" ]; then rm "$(HOME)/.$(notdir $@)"; fi
-	@ln -vsf "$(PWD)/home/$(notdir $@)" "$(HOME)/.$(notdir $@)"
-
-=======
 	stow -D */
 	stow */
->>>>>>> dbaaf9b (rework to use stow)
 
 fzf:
 	@echo ---- fzf ----
