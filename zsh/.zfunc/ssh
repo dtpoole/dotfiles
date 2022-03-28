@@ -1,6 +1,11 @@
 # -- ssh/keychain (call keychain on first ssh call)
 ssh() {
   unfunction "$0"
+
+  if [[ $TERM == "xterm-kitty" ]]; then
+    alias ssh="kitty +kitten ssh"
+  fi
+
   (( $+commands[keychain] )) && eval "$(keychain -q --eval --quick --ignore-missing --agents ssh --inherit any id_rsa id_ed25519)"
   $0 "$@"
 }

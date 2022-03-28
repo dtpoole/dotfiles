@@ -82,7 +82,6 @@ if [[ "$OSTYPE" == "linux-gnu"* ]] && (($+commands[fdfind])); then
   alias -g fd=fdfind
 fi
 
-
 # -- keybindings
 bindkey "^A" beginning-of-line
 bindkey "^E" end-of-line
